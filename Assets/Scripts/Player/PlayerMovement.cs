@@ -82,8 +82,13 @@ public class PlayerMovement : MonoBehaviour
             timeSinceGround += Time.deltaTime;
         }
 
-        float velocityX = Input.GetAxisRaw("Horizontal");
-        velocityX *= speed;
+        float velocityX = rb.velocity.x;
+        float inputX = Input.GetAxisRaw("Horizontal") * speed;
+        if (Mathf.Abs(velocityX) < Mathf.Abs(inputX) * 1.2f)
+        {
+            velocityX = inputX;
+        }
+        velocityX *= 0.9f;
 
         float velocityY = rb.velocity.y;
 
@@ -134,5 +139,12 @@ public class PlayerMovement : MonoBehaviour
             faceRightState = true;
             sr.flipX = true;
         }
+    }
+
+    public void Knock(Vector2 velo)
+    {
+        // Vector2 velocity = rb.velocity;
+        rb.velocity = velo;
+        // rb.velocity = velocity;
     }
 }

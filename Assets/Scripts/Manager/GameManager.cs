@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = 30;
 
-        ResetGame();
+        //ResetGame();
     }
 
     public void AddScore(int add = 1)
@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
 
     private void ResetGame()
     {
+        Time.timeScale = 1;
         isGameover = false;
 
         // reset UI
@@ -81,6 +82,8 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        Time.timeScale = 0f;
+
         if (isGameover == true) return;
 
         isGameover = true;

@@ -11,7 +11,7 @@ public class EnemyMovement : MonoBehaviour
     private int moveRight = -1;
     private Vector2 velocity;
 
-    private Rigidbody2D enemyBody;
+    private Rigidbody2D rb;
 
     [HideInInspector]
     public bool isDead = false;
@@ -22,7 +22,7 @@ public class EnemyMovement : MonoBehaviour
 
     void Awake()
     {
-        enemyBody = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         // get the starting position
         originalX = transform.position.x;
         ComputeVelocity();
@@ -39,14 +39,15 @@ public class EnemyMovement : MonoBehaviour
     }
     void Movegoomba()
     {
-        enemyBody.MovePosition(enemyBody.position + velocity * Time.fixedDeltaTime);
+        rb.velocity = velocity;
+        // rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime);
     }
 
     void Update()
     {
         if (!isDead)
         {
-            if (Mathf.Abs(enemyBody.position.x - originalX) < maxOffset)
+            if (Mathf.Abs(rb.position.x - originalX) < maxOffset)
             {// move goomba
                 Movegoomba();
             }
@@ -63,11 +64,21 @@ public class EnemyMovement : MonoBehaviour
     public void Reset()
     {
         transform.position = startPosition;
+
+        isDead = false;
+        transform.localScale = startScale;
     }
 
     public void Dead()
     {
         isDead = true;
-        transform.localScale = new Vector3(startScale.x, startScale.y * 0.3f, startScale.z);
+        transform.localScale = new Vector3(startScale.x, startScale.y * 0.6f, startScale.z);
+    }
+
+    public void Knock(Vector2 velo)
+    {
+        // Vector2 velocity = rb.velocity;
+        rb.velocity = velo;
+        // rb.velocity = velocity;
     }
 }
