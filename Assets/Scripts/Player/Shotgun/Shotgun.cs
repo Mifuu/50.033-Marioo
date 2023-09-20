@@ -48,8 +48,6 @@ public class Shotgun : MonoBehaviour
         cooldownTimer = cooldown;
         Instantiate(gunShotParticle, barrelEnd.position, Quaternion.identity);
 
-        bool hitEnemy = false;
-
         for (int i = 0; i < ProjPerShot; i++)
         {
             // scatter target pos
@@ -79,15 +77,10 @@ public class Shotgun : MonoBehaviour
                 {
                     e.Knock((cursor - (Vector2)transform.position) * knockSpeed);
                     e.Dead();
+                    GameManager.instance.AddScore();
                 }
-                hitEnemy = true;
                 Instantiate(gunHitParticle, hit.point, Quaternion.identity);
             }
-        }
-
-        if (hitEnemy)
-        {
-            GameManager.instance.AddScore();
         }
     }
 
