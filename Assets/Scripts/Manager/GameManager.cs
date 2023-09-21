@@ -93,4 +93,9 @@ public class GameManager : MonoBehaviour
         gameoverScoreText.text = "score:" + score;
         gameoverPanel.SetActive(true);
     }
+
+    public bool IsGameover()
+    {
+        return isGameover;
+    }
 }

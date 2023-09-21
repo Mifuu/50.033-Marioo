@@ -15,31 +15,33 @@ public class PlayerMovement : MonoBehaviour
     public float coyoteTime = 0.1f;
     public float groundCheckDist = 0.1f;
     public LayerMask groundMask;
-    private bool onGroundState = true;
+    public bool onGround = true;
     private float timeSinceGround = 0;
 
     [Header("Enemy")]
     public LayerMask enemyMask;
 
     // for flipping sprite
-    private SpriteRenderer sr;
+    public SpriteRenderer sr;
     private bool faceRightState = true;
 
     public JumpOverGoomba jumpOverGoomba;
     public Rigidbody2D rb;
     new public BoxCollider2D collider;
+    public PlayerAnim playerAnim;
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
-        collider = GetComponent<BoxCollider2D>();
+        // rb = GetComponent<Rigidbody2D>();
+        // sr = GetComponent<SpriteRenderer>();
+        // collider = GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        CheckSkid();
         CheckCollideEnemy();
         GroundUpdate();
         MoveUpdate();
@@ -58,22 +60,30 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void CheckSkid()
+    {
+        if (Input.GetAxisRaw("Horizontal") > 0 && rb.velocity.x < 0)
+            playerAnim.Skid();
+        else if (Input.GetAxisRaw("Horizontal") < 0 && rb.velocity.x > 0)
+            playerAnim.Skid();
+    }
+
     void GroundUpdate()
     {
         RaycastHit2D hit = Physics2D.BoxCast(transform.position, collider.bounds.size, 0, -transform.up, groundCheckDist, groundMask);
         if (hit)
         {
-            onGroundState = true;
+            onGround = true;
         }
         else
         {
-            onGroundState = false;
+            onGround = false;
         }
     }
 
     void MoveUpdate()
     {
-        if (onGroundState)
+        if (onGround)
         {
             timeSinceGround = 0;
         }
@@ -99,12 +109,12 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // potentially decrese y speed when release (not fool proof)
-        if (Input.GetKeyUp(KeyCode.Space) && !onGroundState && velocityY > upSpeed * upSpeedLiftKeyFactor)
+        if (Input.GetKeyUp(KeyCode.Space) && !onGround && velocityY > upSpeed * upSpeedLiftKeyFactor)
         {
             velocityY = upSpeed * upSpeedLiftKeyFactor;
         }
 
-        if (!onGroundState && velocityY < 0)
+        if (!onGround && velocityY < 0)
         {
             velocityY -= 15 * Time.deltaTime;
         }
@@ -131,13 +141,13 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown("a") && faceRightState)
         {
             faceRightState = false;
-            sr.flipX = false;
+            sr.flipX = true;
         }
 
         if (Input.GetKeyDown("d") && !faceRightState)
         {
             faceRightState = true;
-            sr.flipX = true;
+            sr.flipX = false;
         }
     }
 
