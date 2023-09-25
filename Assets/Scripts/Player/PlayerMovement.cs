@@ -212,7 +212,6 @@ public class PlayerMovement : MonoBehaviour
             raycastOrigin += Vector2.up * incrementY;
         }
 
-        Debug.Log(isHit + "," + dir);
         return isHit;
     }
 }
