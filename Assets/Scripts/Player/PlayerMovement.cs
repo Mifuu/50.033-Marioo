@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement Settings")]
     public float speed = 10;
     public float maxSpeed = 20;
+    private float currentVelocityX;
+    public float smoothTime = 0.5f;
 
     [Header("Jump Settings")]
     public float upSpeed = 10;
@@ -29,6 +31,9 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D rb;
     new public BoxCollider2D collider;
     public PlayerAnim playerAnim;
+
+    [Header("Requirements")]
+    public Player player;
 
     // Start is called before the first frame update
     void Start()
@@ -55,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (hit && !hit.transform.GetComponent<EnemyMovement>().isDead)
             {
+                player.alive = false;
                 GameManager.instance.GameOver();
             }
         }
@@ -62,6 +68,7 @@ public class PlayerMovement : MonoBehaviour
 
     void CheckSkid()
     {
+        if (!onGround) return;
         if (Input.GetAxisRaw("Horizontal") > 0 && rb.velocity.x < 0)
             playerAnim.Skid();
         else if (Input.GetAxisRaw("Horizontal") < 0 && rb.velocity.x > 0)
@@ -83,6 +90,8 @@ public class PlayerMovement : MonoBehaviour
 
     void MoveUpdate()
     {
+        if (!player.alive) return;
+
         if (onGround)
         {
             timeSinceGround = 0;
@@ -98,7 +107,10 @@ public class PlayerMovement : MonoBehaviour
         {
             velocityX = inputX;
         }
+
+        //
         velocityX *= 0.9f;
+        velocityX = Mathf.SmoothDamp(velocityX, 0, ref currentVelocityX, smoothTime);
 
         float velocityY = rb.velocity.y;
 
@@ -114,10 +126,13 @@ public class PlayerMovement : MonoBehaviour
             velocityY = upSpeed * upSpeedLiftKeyFactor;
         }
 
+        // faster falling acceleration
         if (!onGround && velocityY < 0)
         {
             velocityY -= 15 * Time.deltaTime;
         }
+
+        //
 
         rb.velocity = new Vector2(velocityX, velocityY);
     }

@@ -20,6 +20,22 @@ public class GameManager : MonoBehaviour
 
     public bool isGameover = false;
 
+    // restart
+    public delegate void OnRestart();
+    public OnRestart onRestart;
+
+    void OnEnable()
+    {
+        onRestart += () =>
+        {
+            // reset UI
+            gameoverPanel.SetActive(false);
+
+            score = 0;
+            scoreText.text = "Score:0";
+        };
+    }
+
     void Awake()
     {
         if (instance != null && instance != this)
@@ -62,34 +78,33 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         isGameover = false;
 
-        // reset UI
-        gameoverPanel.SetActive(false);
-
-        // reset player data
-        Player.instance.ResetPos();
-        // reset flipping
-
-        score = 0;
-        scoreText.text = "Score:0";
-        // reset Goomba
-        foreach (Transform eachChild in enemies.transform)
-        {
-            eachChild.GetComponent<EnemyMovement>().Reset();
-        }
-        // reset score
-        // jumpOverGoomba.score = 0;
+        onRestart.Invoke();
     }
 
     public void GameOver()
     {
-        Time.timeScale = 0f;
-
         if (isGameover == true) return;
-
         isGameover = true;
 
+        StartCoroutine(GameOverIE());
+    }
+
+    IEnumerator GameOverIE()
+    {
+        SFXManager.instance.PlaySFX("mario_dead", gameObject);
+
+        yield return new WaitForSeconds(0.6f);
+
+        // knock player up
+        Player.instance.playerMovement.Knock(Vector2.up * 24f);
+
+        yield return new WaitForSeconds(1.0f);
+
+        // timescale = 0
+        Time.timeScale = 0f;
+
         // show gameover
-        gameoverText.text = "Gameover";
+        gameoverText.text = "Wasted";
         gameoverScoreText.text = "score:" + score;
         gameoverPanel.SetActive(true);
     }

@@ -8,9 +8,13 @@ public class Player : MonoBehaviour
 
     Vector3 startPos;
 
+    [Header("State")]
+    public bool alive = true;
+
     [Header("Requirements")]
     public PlayerMovement playerMovement;
     public JumpOverGoomba jumpOverGoomba;
+    public PlayerAnim playerAnim;
 
     void Awake()
     {
@@ -22,6 +26,7 @@ public class Player : MonoBehaviour
         instance = this;
 
         SetStartPos();
+        Reset();
     }
 
     void Start()
@@ -29,13 +34,25 @@ public class Player : MonoBehaviour
 
     }
 
+    void OnEnable()
+    {
+        GameManager.instance.onRestart += Reset;
+    }
+
+    void OnDisable()
+    {
+        GameManager.instance.onRestart -= Reset;
+    }
+
+    public void Reset()
+    {
+        alive = true;
+        playerAnim.Restart();
+        transform.position = startPos;
+    }
+
     public void SetStartPos()
     {
         startPos = transform.position;
-    }
-
-    public void ResetPos()
-    {
-        transform.position = startPos;
     }
 }

@@ -9,6 +9,7 @@ public class JumpOverGoomba : MonoBehaviour
     public float maxDistance;
     public LayerMask enemyMask;
 
+    public Player player;
     public PlayerMovement playerMovement;
     private GameManager gm;
 
@@ -24,6 +25,9 @@ public class JumpOverGoomba : MonoBehaviour
 
     void JumpOnGoombaUpdate()
     {
+        // check if alive
+        if (!player.alive) return;
+
         // if player is falling down and the collider hit goomba then do dmg and add score
 
         if (playerMovement.rb.velocity.y >= 0)

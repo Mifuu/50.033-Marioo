@@ -9,6 +9,7 @@ public class PlayerAnim : MonoBehaviour
     private bool isDead = false;
 
     GameManager gm;
+    public Player player;
     public PlayerMovement playerMovement;
     public Animator animator;
 
@@ -21,7 +22,7 @@ public class PlayerAnim : MonoBehaviour
     {
         onGround = playerMovement.onGround;
         moveSpeed = Mathf.Abs(playerMovement.rb.velocity.x);
-        isDead = gm.isGameover;
+        isDead = !player.alive;
 
         animator.SetBool("onGround", onGround);
         animator.SetFloat("moveSpeed", moveSpeed);
@@ -31,6 +32,10 @@ public class PlayerAnim : MonoBehaviour
     public void Skid()
     {
         animator.SetTrigger("skid");
-        Debug.Log("SKID!");
+    }
+
+    public void Restart()
+    {
+        animator.SetTrigger("restart");
     }
 }
