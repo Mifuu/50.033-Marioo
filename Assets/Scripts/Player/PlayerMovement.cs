@@ -11,6 +11,12 @@ public class PlayerMovement : MonoBehaviour
     private float currentVelocityX;
     public float smoothTime = 0.5f;
 
+    [Header("Wall Stuck Fix Setting")]
+    [Range(2, 10)]
+    public int wsRaycastCount = 3;
+    public float wsCheckDist = 0.1f;
+    public LayerMask wsLayerMask;
+
     [Header("Jump Settings")]
     public float upSpeed = 10;
     public float upSpeedLiftKeyFactor = 0.5f;
@@ -108,9 +114,15 @@ public class PlayerMovement : MonoBehaviour
             velocityX = inputX;
         }
 
-        //
+        // damping x velocity
         velocityX *= 0.9f;
         velocityX = Mathf.SmoothDamp(velocityX, 0, ref currentVelocityX, smoothTime);
+
+        // fix stuck to walls
+        if (velocityX != 0 && WillCollide(velocityX))
+        {
+            velocityX = 0;
+        }
 
         float velocityY = rb.velocity.y;
 
@@ -131,8 +143,6 @@ public class PlayerMovement : MonoBehaviour
         {
             velocityY -= 15 * Time.deltaTime;
         }
-
-        //
 
         rb.velocity = new Vector2(velocityX, velocityY);
     }
@@ -171,5 +181,38 @@ public class PlayerMovement : MonoBehaviour
         // Vector2 velocity = rb.velocity;
         rb.velocity = velo;
         // rb.velocity = velocity;
+    }
+
+    private bool WillCollide(float velocityX)
+    {
+        bool goRight = velocityX > 0;
+
+        Vector2 raycastOrigin;
+        if (goRight)
+        {
+            raycastOrigin = new Vector2(collider.bounds.max.x, collider.bounds.min.y);
+        }
+        else
+        {
+            raycastOrigin = new Vector2(collider.bounds.min.x, collider.bounds.min.y);
+        }
+
+        float incrementY = (collider.bounds.extents.y * 2) / (wsRaycastCount - 1);
+        bool isHit = false;
+        Vector2 dir = Mathf.Sign(velocityX) * Vector2.right;
+        for (int i = 0; i < wsRaycastCount - 1; i++)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(raycastOrigin, dir, wsCheckDist, wsLayerMask);
+            if (hit)
+            {
+                isHit = true;
+                break;
+            }
+            Debug.DrawRay(raycastOrigin, dir, Color.red);
+            raycastOrigin += Vector2.up * incrementY;
+        }
+
+        Debug.Log(isHit + "," + dir);
+        return isHit;
     }
 }

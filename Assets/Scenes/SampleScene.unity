@@ -656,6 +656,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 7.5
   maxSpeed: 20
+  smoothTime: 0.5
+  wsRaycastCount: 3
+  wsCheckDist: 0.1
+  wsLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
   upSpeed: 15
   upSpeedLiftKeyFactor: 0.5
   coyoteTime: 0.13
