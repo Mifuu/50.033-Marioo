@@ -61,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
 
     void CheckCollideEnemy()
     {
-        RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position, collider.bounds.size, 0, transform.up, 0, enemyMask);
+        RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position, collider.bounds.size + (2 * collider.edgeRadius) * Vector3.one, 0, transform.up, 0, enemyMask);
         foreach (var hit in hits)
         {
             if (hit && !hit.transform.GetComponent<EnemyMovement>().isDead)
@@ -83,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
 
     void GroundUpdate()
     {
-        RaycastHit2D hit = Physics2D.BoxCast(transform.position, collider.bounds.size, 0, -transform.up, groundCheckDist, groundMask);
+        RaycastHit2D hit = Physics2D.BoxCast(transform.position, collider.bounds.size + (2 * collider.edgeRadius) * Vector3.one, 0, -transform.up, groundCheckDist, groundMask);
         if (hit)
         {
             onGround = true;
@@ -187,17 +187,20 @@ public class PlayerMovement : MonoBehaviour
     {
         bool goRight = velocityX > 0;
 
+        Bounds bounds = collider.bounds;
+        bounds.Expand(collider.edgeRadius);
+
         Vector2 raycastOrigin;
         if (goRight)
         {
-            raycastOrigin = new Vector2(collider.bounds.max.x, collider.bounds.min.y);
+            raycastOrigin = new Vector2(bounds.max.x, bounds.min.y);
         }
         else
         {
-            raycastOrigin = new Vector2(collider.bounds.min.x, collider.bounds.min.y);
+            raycastOrigin = new Vector2(bounds.min.x, bounds.min.y);
         }
 
-        float incrementY = (collider.bounds.extents.y * 2) / (wsRaycastCount - 1);
+        float incrementY = (bounds.extents.y * 2) / (wsRaycastCount - 1);
         bool isHit = false;
         Vector2 dir = Mathf.Sign(velocityX) * Vector2.right;
         for (int i = 0; i < wsRaycastCount - 1; i++)
