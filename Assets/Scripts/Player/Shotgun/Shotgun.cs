@@ -79,6 +79,13 @@ public class Shotgun : MonoBehaviour
                     e.Dead();
                     GameManager.instance.AddScore();
                 }
+                var u = hit.transform.parent.GetComponent<UoombaScript>();
+                if (u != null)
+                {
+                    u.Knock((cursor - (Vector2)transform.position) * knockSpeed);
+                    u.Dead();
+                    GameManager.instance.AddScore();
+                }
                 Instantiate(gunHitParticle, hit.point, Quaternion.identity);
             }
         }

@@ -11,7 +11,7 @@ public class EnemyMovement : MonoBehaviour
     private int moveRight = -1;
     private Vector2 velocity;
 
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
 
     [HideInInspector]
     public bool isDead = false;
@@ -20,9 +20,13 @@ public class EnemyMovement : MonoBehaviour
     public Vector3 startPosition;
     private Vector3 startScale;
 
+    public Transform rendererTransform;
+    public GameObject transformParticle;
+
+    public GameObject uoomba;
+
     void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
         // get the starting position
         originalX = transform.position.x;
         ComputeVelocity();
@@ -76,13 +80,29 @@ public class EnemyMovement : MonoBehaviour
         transform.position = startPosition;
 
         isDead = false;
-        transform.localScale = startScale;
+        rendererTransform.localScale = startScale;
     }
 
     public void Dead()
     {
         isDead = true;
-        transform.localScale = new Vector3(startScale.x, startScale.y * 0.6f, startScale.z);
+        rendererTransform.localScale = new Vector3(startScale.x, startScale.y * 0.6f, startScale.z);
+        StartCoroutine(Transform());
+    }
+
+    IEnumerator Transform()
+    {
+        yield return new WaitForSeconds(0.3f);
+        Instantiate(transformParticle, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(0.6f);
+        Instantiate(transformParticle, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(1f);
+        Instantiate(transformParticle, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(1.3f);
+        Instantiate(transformParticle, transform.position, Quaternion.identity);
+        Instantiate(uoomba, transform.position, Quaternion.identity);
+        uoomba.GetComponent<UoombaScript>().Knock(Vector2.up * 1);
+        Destroy(gameObject);
     }
 
     public void Knock(Vector2 velo)
