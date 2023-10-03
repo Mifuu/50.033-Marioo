@@ -9,21 +9,18 @@ public class Leg : MonoBehaviour
     [Header("Contact Settings")]
     public float length;
     public float angle;
-    public float randomAngle;
+    public float angleDelta;
     public LayerMask layerMask;
-    public int maxPlacementTrial = 15;
     public float standbyLength;
 
     [Header("Max Settings")]
-    public float maxLength;
-    public float maxDeltaAngle;
-    public float maxAngleOffset;
+    public Vector2 maxXDist;
 
     [Header("Requirements")]
     public LegIK legIK;
 
     [HideInInspector] public bool contact = false;
-    private Vector2 endPointTarget;
+    public Vector2 endPointTarget;
     private Vector3 endPointVelocity;
 
     [Header("EndPoint Settings")]
@@ -33,8 +30,20 @@ public class Leg : MonoBehaviour
     [Header("Sprite Settings")]
     public bool altIK;
 
+    [Header("Tracking Velocity")]
+    private Vector2 oldPos;
+    private Vector2 pos;
+    private Vector2 velocity;
+
+    void Awake()
+    {
+        pos = transform.position;
+        oldPos = pos;
+    }
+
     void FixedUpdate()
     {
+        UpdatePos();
         UpdateContact();
         UpdateLegPos();
     }
@@ -45,18 +54,14 @@ public class Leg : MonoBehaviour
         {
             // Debug.Log(angle + ", " + AngPosUtil.GetAngle(transform.position, legIK.endPoint));
 
-            // if dist or angle is more than limit, contact = false
-            if (Vector2.Distance(legIK.endPoint, transform.position) > maxLength)
+            // if dist x more than max
+            if (legIK.GetEndPoint().x > transform.position.x + maxXDist.y)
             {
                 contact = false;
-
-                // move the end point to standby position
             }
-            else if (Mathf.Abs((angle + maxAngleOffset) - AngPosUtil.GetAngle(transform.position, legIK.endPoint)) > maxDeltaAngle)
+            else if (legIK.GetEndPoint().x < transform.position.x - maxXDist.x)
             {
                 contact = false;
-
-                // move the end point to standby position
             }
         }
         else
@@ -88,45 +93,78 @@ public class Leg : MonoBehaviour
             endPointTarget = AngPosUtil.GetAngularPos(angle, standbyLength) + (Vector2)transform.position;
         }
 
-
-        legIK.endPoint = Vector3.SmoothDamp(legIK.endPoint, endPointTarget, ref endPointVelocity, contact ? contactSmoothTime : uncontactSmoothTime);
+        // legIK.SetEndPoint(endPointTarget);
+        legIK.SetEndPoint(Vector3.SmoothDamp(legIK.GetEndPoint(), endPointTarget, ref endPointVelocity, contact ? contactSmoothTime : uncontactSmoothTime));
         // legIK.endPoint = endPointTarget;
+    }
+
+    void UpdatePos()
+    {
+        oldPos = pos;
+        pos = transform.position;
+        velocity = (pos - oldPos) / Time.deltaTime;
     }
 
     Vector2? TryGetContactPoint()
     {
-        for (int i = 0; i < maxPlacementTrial; i++)
-        {
-            Vector2 rayDir = AngPosUtil.GetAngularPos(angle, length, randomAngle);
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, rayDir, length, layerMask);
+        float rayAngle = angle;
 
-            if (hit)
-            {
-                return hit.point;
-            }
+        float angleLeft = angle - angleDelta;
+        float angleRight = angle + angleDelta;
+
+        if (Mathf.Abs(angleLeft) - Mathf.Abs(angleRight) < 0)
+        {
+            float _tmp = angleLeft;
+            angleLeft = angleRight;
+            angleRight = _tmp;
+        }
+
+        // differ ray direction based on velocity
+        if (Mathf.Abs(velocity.x) < 0.001f)
+        {
+            rayAngle = angle;
+            Debug.Log("0");
+        }
+        else if (velocity.x > 0)
+        {
+            rayAngle = angleRight;
+            Debug.Log("1");
+        }
+        else
+        {
+            rayAngle = angleLeft;
+            Debug.Log("-1");
+        }
+
+        Vector2 rayDir = AngPosUtil.GetAngularPos(rayAngle, length);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, rayDir, length, layerMask);
+
+        if (hit)
+        {
+            return hit.point;
         }
 
         return null;
     }
 
-    void OnDrawGizmos()
+    void OnDrawGizmosSelected()
     {
         // draw init ray
         Gizmos.color = Color.yellow;
         Vector2 targetInitPos = (Vector2)transform.position + AngPosUtil.GetAngularPos(angle, length);
-        Vector2 targetInitPosRand1 = (Vector2)transform.position + AngPosUtil.GetAngularPos(angle - randomAngle / 2, length);
-        Vector2 targetInitPosRand2 = (Vector2)transform.position + AngPosUtil.GetAngularPos(angle + randomAngle / 2, length);
+        Vector2 targetInitPos1 = (Vector2)transform.position + AngPosUtil.GetAngularPos(angle - angleDelta, length);
+        Vector2 targetInitPos2 = (Vector2)transform.position + AngPosUtil.GetAngularPos(angle + angleDelta, length);
         Gizmos.DrawWireSphere(targetInitPos, 0.2f);
         Gizmos.DrawLine(transform.position, targetInitPos);
-        Gizmos.DrawLine(transform.position, targetInitPosRand1);
-        Gizmos.DrawLine(transform.position, targetInitPosRand2);
+        Gizmos.DrawLine(transform.position, targetInitPos1);
+        Gizmos.DrawLine(transform.position, targetInitPos2);
 
         // draw max ray
         Gizmos.color = new Color(1, 0.5f, 0);
-        Vector2 max1 = (Vector2)transform.position + AngPosUtil.GetAngularPos((angle + maxAngleOffset) - maxDeltaAngle, maxLength);
-        Vector2 max2 = (Vector2)transform.position + AngPosUtil.GetAngularPos((angle + maxAngleOffset) + maxDeltaAngle, maxLength);
-        Gizmos.DrawLine(transform.position, max1);
-        Gizmos.DrawLine(transform.position, max2);
+        float y = transform.position.y;
+        Vector2 p1 = new Vector2(transform.position.x - maxXDist.x, y);
+        Vector2 p2 = new Vector2(transform.position.x + maxXDist.y, y);
+        Gizmos.DrawLine(p1, p2);
     }
 
     void OnValidate()

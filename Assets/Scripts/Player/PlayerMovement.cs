@@ -116,25 +116,18 @@ public class PlayerMovement : MonoBehaviour
         if (hit)
         {
             onGround = true;
+            timeSinceGround = 0;
         }
         else
         {
             onGround = false;
+            timeSinceGround += Time.deltaTime;
         }
     }
 
     void MoveUpdate()
     {
         if (!player.alive) return;
-
-        if (onGround)
-        {
-            timeSinceGround = 0;
-        }
-        else
-        {
-            timeSinceGround += Time.deltaTime;
-        }
 
         float velocityX = rb.velocity.x;
         float _inputX = inputX * speed;
@@ -180,9 +173,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Knock(Vector2 velo)
     {
-        // Vector2 velocity = rb.velocity;
         rb.velocity = velo;
-        // rb.velocity = velocity;
     }
 
     private bool WillCollide(float velocityX)

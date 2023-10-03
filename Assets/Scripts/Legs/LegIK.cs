@@ -8,7 +8,9 @@ public class LegIK : MonoBehaviour
 {
     public float length;
 
-    public Vector2 endPoint;
+    [Header("Optional")]
+    [SerializeField] private Transform endPoint;
+    private Vector3 endPos;
 
     public bool altAngle = false;
 
@@ -17,7 +19,7 @@ public class LegIK : MonoBehaviour
     public Transform joint2;
     public Transform joint3;
 
-    void FixedUpdate()
+    void Update()
     {
         UpdateJointPosition(altAngle);
     }
@@ -25,18 +27,20 @@ public class LegIK : MonoBehaviour
     void UpdateJointPosition(bool alternatePos = false)
     {
         // ensuring the length
-        Vector3 _end = GetMaxEndPoint();
+        Vector3 _endPos = GetMaxEndPoint();
+        Vector3 _startPos = joint1.transform.position;
 
-        joint1.transform.position = this.transform.position;
-        joint3.transform.position = _end;
+        joint3.transform.position = _endPos;
 
-        float x1 = this.transform.position.x;
-        float y1 = this.transform.position.y;
-        float x2 = _end.x;
-        float y2 = _end.y;
+        float x1 = _startPos.x;
+        float y1 = _startPos.y;
+        float x2 = _endPos.x;
+        float y2 = _endPos.y;
         float r1 = length / 2;
         float r2 = length / 2;
-        float d = Vector2.Distance(this.transform.position, _end);
+        float d = Vector2.Distance(_startPos, _endPos);
+
+        // ensuring d != length
         if (Mathf.Abs(d - length) < 0.001f) d = length - 0.1f;
 
         float x = 0;
@@ -55,10 +59,14 @@ public class LegIK : MonoBehaviour
 
         if (float.IsNaN(x))
         {
-            x = 0;
-            Debug.Log("d: " + d);
+            x = joint2.transform.position.x;
+            Debug.Log("X NAN");
         }
-        if (float.IsNaN(y)) y = 0;
+        if (float.IsNaN(y))
+        {
+            y = joint2.transform.position.y;
+            Debug.Log("Y NAN");
+        }
 
         joint2.transform.position = new Vector3(x, y, joint2.transform.position.z);
 
@@ -68,13 +76,26 @@ public class LegIK : MonoBehaviour
 
     Vector3 GetMaxEndPoint()
     {
-        Vector3 delta = (Vector3)endPoint - this.transform.position;
+        Vector3 delta = GetEndPoint() - this.transform.position;
         if (delta.magnitude > length)
         {
             delta = delta.normalized * (length);
-            return this.transform.position + delta;
+            return (Vector3)this.transform.position + delta;
         }
-        return endPoint;
+        return GetEndPoint();
+    }
+
+    public Vector3 GetEndPoint()
+    {
+        return ((endPoint != null) ? endPoint.transform.position : endPos);
+    }
+
+    public void SetEndPoint(Vector3 val)
+    {
+        if (endPoint == null)
+            endPos = val;
+        else
+            endPoint.transform.position = val;
     }
 
     void OnDrawGizmos()

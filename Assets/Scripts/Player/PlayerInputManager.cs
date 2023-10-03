@@ -13,14 +13,12 @@ public class PlayerInputManager : MonoBehaviour
     void Awake()
     {
         playerActions = new PlayerActions();
+        playerActions.Enable();
         gameplayActions = playerActions.Gameplay;
 
-        // gameplayActions.Jump.performed += ctx => movement.Jump(ctx);
-    }
-
-    void FixedUpdate()
-    {
-        // Debug.Log(gameplayActions.Move.ReadValue<float>());
-        // movement.ProcessInputX(gameplayActions.Move.ReadValue<float>());
+        gameplayActions.Jump.performed += movement.OnJump;
+        gameplayActions.Jump.canceled += movement.OnJump;
+        gameplayActions.Move.performed += movement.OnHorizontalInput;
+        gameplayActions.Move.canceled += movement.OnHorizontalInput;
     }
 }
