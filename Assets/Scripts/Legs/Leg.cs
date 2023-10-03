@@ -8,6 +8,7 @@ public class Leg : MonoBehaviour
 {
     [Header("Contact Settings")]
     public float length;
+    public float rayLength;
     public float angle;
     public float angleDelta;
     public LayerMask layerMask;
@@ -136,8 +137,8 @@ public class Leg : MonoBehaviour
             Debug.Log("-1");
         }
 
-        Vector2 rayDir = AngPosUtil.GetAngularPos(rayAngle, length);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, rayDir, length, layerMask);
+        Vector2 rayDir = AngPosUtil.GetAngularPos(rayAngle, rayLength);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, rayDir, rayLength, layerMask);
 
         if (hit)
         {
@@ -151,9 +152,9 @@ public class Leg : MonoBehaviour
     {
         // draw init ray
         Gizmos.color = Color.yellow;
-        Vector2 targetInitPos = (Vector2)transform.position + AngPosUtil.GetAngularPos(angle, length);
-        Vector2 targetInitPos1 = (Vector2)transform.position + AngPosUtil.GetAngularPos(angle - angleDelta, length);
-        Vector2 targetInitPos2 = (Vector2)transform.position + AngPosUtil.GetAngularPos(angle + angleDelta, length);
+        Vector2 targetInitPos = (Vector2)transform.position + AngPosUtil.GetAngularPos(angle, rayLength);
+        Vector2 targetInitPos1 = (Vector2)transform.position + AngPosUtil.GetAngularPos(angle - angleDelta, rayLength);
+        Vector2 targetInitPos2 = (Vector2)transform.position + AngPosUtil.GetAngularPos(angle + angleDelta, rayLength);
         Gizmos.DrawWireSphere(targetInitPos, 0.2f);
         Gizmos.DrawLine(transform.position, targetInitPos);
         Gizmos.DrawLine(transform.position, targetInitPos1);
