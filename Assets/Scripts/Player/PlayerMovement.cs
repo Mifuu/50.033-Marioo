@@ -50,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (inputX < 0)
             sr.flipX = true;
-        else
+        if (inputX > 0)
             sr.flipX = false;
     }
 
