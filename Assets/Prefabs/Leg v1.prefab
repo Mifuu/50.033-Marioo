@@ -342,7 +342,7 @@ MonoBehaviour:
     m_Bits: 128
   maxPlacementTrial: 15
   standbyLength: 0.5
-  maxLength: 4
+  maxLength: 2.9
   maxDeltaAngle: 30
   maxAngleOffset: 13
   legIK: {fileID: 8930056286378885378}

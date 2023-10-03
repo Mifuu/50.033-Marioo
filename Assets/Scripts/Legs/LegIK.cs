@@ -37,6 +37,7 @@ public class LegIK : MonoBehaviour
         float r1 = length / 2;
         float r2 = length / 2;
         float d = Vector2.Distance(this.transform.position, _end);
+        if (Mathf.Abs(d - length) < 0.001f) d = length - 0.1f;
 
         float x = 0;
         float y = 0;
@@ -51,6 +52,13 @@ public class LegIK : MonoBehaviour
             x = ((x1 + x2) / 2) + (r1 * r1 - r2 * r2) * (x2 - x1) / (2 * d * d) - Mathf.Sqrt(2 * ((r1 * r1 + r2 * r2) / (d * d)) - (Mathf.Pow((r1 * r1 - r2 * r2), 2) / Mathf.Pow(d, 4)) - 1) * (y2 - y1) / 2;
             y = ((y1 + y2) / 2) + (r1 * r1 - r2 * r2) * (y2 - y1) / (2 * d * d) - Mathf.Sqrt(2 * ((r1 * r1 + r2 * r2) / (d * d)) - (Mathf.Pow((r1 * r1 - r2 * r2), 2) / Mathf.Pow(d, 4)) - 1) * (x1 - x2) / 2;
         }
+
+        if (float.IsNaN(x))
+        {
+            x = 0;
+            Debug.Log("d: " + d);
+        }
+        if (float.IsNaN(y)) y = 0;
 
         joint2.transform.position = new Vector3(x, y, joint2.transform.position.z);
 

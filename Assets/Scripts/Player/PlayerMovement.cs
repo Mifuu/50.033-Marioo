@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using TMPro;
 
 public class PlayerMovement : MonoBehaviour
@@ -41,6 +42,35 @@ public class PlayerMovement : MonoBehaviour
     [Header("Requirements")]
     public Player player;
 
+    // input
+    public float inputX;
+    public void OnHorizontalInput(InputAction.CallbackContext context)
+    {
+        inputX = context.ReadValue<float>();
+
+        if (inputX < 0)
+            sr.flipX = true;
+        else
+            sr.flipX = false;
+    }
+
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (timeSinceGround < coyoteTime)
+                Jump();
+        }
+        else if (context.canceled)
+        {
+            float velocityY = rb.velocity.y;
+            if (!onGround && velocityY > upSpeed * upSpeedLiftKeyFactor)
+            {
+                Jump(upSpeedLiftKeyFactor);
+            }
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,7 +86,6 @@ public class PlayerMovement : MonoBehaviour
         CheckCollideEnemy();
         GroundUpdate();
         MoveUpdate();
-        FlipSpriteUpdate();
     }
 
     void CheckCollideEnemy()
@@ -75,9 +104,9 @@ public class PlayerMovement : MonoBehaviour
     void CheckSkid()
     {
         if (!onGround) return;
-        if (Input.GetAxisRaw("Horizontal") > 0 && rb.velocity.x < 0)
+        if (inputX > 0 && rb.velocity.x < 0)
             playerAnim.Skid();
-        else if (Input.GetAxisRaw("Horizontal") < 0 && rb.velocity.x > 0)
+        else if (inputX < 0 && rb.velocity.x > 0)
             playerAnim.Skid();
     }
 
@@ -108,10 +137,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         float velocityX = rb.velocity.x;
-        float inputX = Input.GetAxisRaw("Horizontal") * speed;
-        if (Mathf.Abs(velocityX) < Mathf.Abs(inputX) * 1.2f)
+        float _inputX = inputX * speed;
+        if (Mathf.Abs(velocityX) < Mathf.Abs(_inputX) * 1.2f)
         {
-            velocityX = inputX;
+            velocityX = _inputX;
         }
 
         // damping x velocity
@@ -125,18 +154,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         float velocityY = rb.velocity.y;
-
-        // if jump
-        if (Input.GetKeyDown(KeyCode.Space) && timeSinceGround < coyoteTime)
-        {
-            velocityY = Jump();
-        }
-
-        // potentially decrese y speed when release (not fool proof)
-        if (Input.GetKeyUp(KeyCode.Space) && !onGround && velocityY > upSpeed * upSpeedLiftKeyFactor)
-        {
-            velocityY = upSpeed * upSpeedLiftKeyFactor;
-        }
 
         // faster falling acceleration
         if (!onGround && velocityY < 0)
@@ -159,21 +176,6 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = new Vector2(rb.velocity.x, velocityY);
 
         return velocityY;
-    }
-
-    void FlipSpriteUpdate()
-    {
-        if (Input.GetKeyDown("a") && faceRightState)
-        {
-            faceRightState = false;
-            sr.flipX = true;
-        }
-
-        if (Input.GetKeyDown("d") && !faceRightState)
-        {
-            faceRightState = true;
-            sr.flipX = false;
-        }
     }
 
     public void Knock(Vector2 velo)
