@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SFXManager : MonoBehaviour
 {
@@ -49,6 +50,7 @@ public class SFXManager : MonoBehaviour
         {
             source = target.AddComponent<AudioSource>();
             source.volume = sfxVolume * sfxVolumeFac;
+            source.outputAudioMixerGroup = s.audioMixerGroup;
             audioSources.Add(source);
 
             source.maxDistance = 30f;
@@ -97,6 +99,7 @@ public class Sound
 
     [Range(0f, 4f)]
     public float volume = 1;
+    public AudioMixerGroup audioMixerGroup;
 
     [HideInInspector] public AudioSource source;
 }

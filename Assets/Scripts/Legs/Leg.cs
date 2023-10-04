@@ -37,6 +37,9 @@ public class Leg : MonoBehaviour
     private Vector2 pos;
     private Vector2 velocity;
 
+    // [Header("SFX")] // https://www.zapsplat.com/sound-effect-category/footsteps/
+    private string[] stepSFXs = { "mon_step_1", "mon_step_2", "mon_step_3", "mon_step_4" };
+
     void Awake()
     {
         pos = transform.position;
@@ -87,6 +90,9 @@ public class Leg : MonoBehaviour
                 // move the endPoint to the contact point
                 Vector2 _contactPoint = (Vector2)contactPoint;
                 endPointTarget = new Vector2(_contactPoint.x, _contactPoint.y);
+
+
+                SFXManager.TryPlaySFX(stepSFXs, this.gameObject);
 
                 contact = true;
             }
