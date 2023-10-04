@@ -25,7 +25,7 @@ public class UoombaScript : MonoBehaviour
     [Header("Legs")]
     public Leg[] legs;
     private int legContactNum;
-    public float gravityMultiplier = 0.85f;
+    public float gravityFacDecreasePerLeg;
     private float gravity;
 
     void Awake()
@@ -52,7 +52,8 @@ public class UoombaScript : MonoBehaviour
             if (l.contact) legContactNum++;
         }
 
-        rb.gravityScale = gravity * Mathf.Pow(gravityMultiplier, legContactNum);
+        rb.gravityScale = gravity * (1 - (legContactNum * gravityFacDecreasePerLeg));
+        Debug.Log(rb.gravityScale);
     }
 
     IEnumerator GoombaIdleIE()

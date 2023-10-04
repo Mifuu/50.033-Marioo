@@ -76,6 +76,7 @@ MonoBehaviour:
     m_Bits: 128
   standbyLength: 0.2
   maxXDist: {x: 0, y: 0}
+  maxDist: 3.2
   legIK: {fileID: 6910939862747841569}
   contact: 0
   endPointTarget: {x: 0, y: 0}

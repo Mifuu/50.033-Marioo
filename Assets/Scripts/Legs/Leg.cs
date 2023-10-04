@@ -16,11 +16,12 @@ public class Leg : MonoBehaviour
 
     [Header("Max Settings")]
     public Vector2 maxXDist;
+    public float maxDist;
 
     [Header("Requirements")]
     public LegIK legIK;
 
-    [HideInInspector] public bool contact = false;
+    public bool contact = false;
     public Vector2 endPointTarget;
     private Vector3 endPointVelocity;
 
@@ -61,6 +62,11 @@ public class Leg : MonoBehaviour
                 contact = false;
             }
             else if (legIK.GetEndPoint().x < transform.position.x - maxXDist.x)
+            {
+                contact = false;
+            }
+
+            if (Vector2.Distance(legIK.GetEndPoint(), transform.position) > maxDist)
             {
                 contact = false;
             }
