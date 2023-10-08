@@ -26,7 +26,7 @@ public class JumpOverGoomba : MonoBehaviour
     void JumpOnGoombaUpdate()
     {
         // check if alive
-        if (!player.alive) return;
+        if (!player.Alive) return;
 
         // if player is falling down and the collider hit goomba then do dmg and add score
 

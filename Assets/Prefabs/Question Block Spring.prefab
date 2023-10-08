@@ -54,8 +54,22 @@ MonoBehaviour:
   disabledCollider: {fileID: 5277169618656145929}
   collider: {fileID: 3046056656376393005}
   questionBlockAnimator: {fileID: 5380931378555182020}
-  coinAnimator: {fileID: 1820306622185663275}
   defaultActivatationCount: 1
+  triggerEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1820306622185663275}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: trigger
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!212 &213382681117112021
 SpriteRenderer:
   m_ObjectHideFlags: 0

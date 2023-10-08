@@ -36,6 +36,7 @@ public class Rope : MonoBehaviour
     [SerializeField] private ExtensionWind extensionWind;
     [SerializeField] private ExtensionAffector extensionAffector;
     [SerializeField] private ExtensionCollider extensionCollider;
+    [SerializeField] private ExtensionCustomAtEndPoint extensionCustomAtEndPoint;
 
     [Header("Performance")]
     [SerializeField] private bool outOfPlayerRangeStopSimulation = true;
@@ -135,8 +136,17 @@ public class Rope : MonoBehaviour
     private void FollowerUpdate()
     {
         atRopeStart.transform.position = ropeSegments[0].posNow;
-        atRopeEnd.transform.position = ropeSegments[ropeSegments.Count - 1].posNow;
-        float _angle = Vector2.SignedAngle(Vector2.up, ropeSegments[ropeSegments.Count - 1].posNow - ropeSegments[ropeSegments.Count - 2].posNow);
+
+        int index = ropeSegments.Count - 1;
+        if (extensionCustomAtEndPoint.enabled)
+        {
+            index = extensionCustomAtEndPoint.GetAtEndPointIndex(ropeSegments.Count);
+            index--;
+            if (index <= 0) index = 1;
+        }
+
+        atRopeEnd.transform.position = ropeSegments[index].posNow;
+        float _angle = Vector2.SignedAngle(Vector2.up, ropeSegments[index].posNow - ropeSegments[index - 1].posNow);
         //_angle *= Mathf.Rad2Deg;
         atRopeEnd.transform.rotation = Quaternion.Euler(new Vector3(0, 0, _angle));
     }
@@ -376,6 +386,19 @@ public class Rope : MonoBehaviour
             Collider2D _collider = Physics2D.OverlapPoint(_point, layerMask);
             if (_collider) return true;
             return false;
+        }
+    }
+
+    [System.Serializable]
+    public class ExtensionCustomAtEndPoint
+    {
+        public bool enabled;
+        [Range(0, 1)]
+        public float atEndPointRatio = 1;
+
+        public int GetAtEndPointIndex(int segmentCount)
+        {
+            return Mathf.FloorToInt(Mathf.Lerp(0, segmentCount, atEndPointRatio));
         }
     }
 }

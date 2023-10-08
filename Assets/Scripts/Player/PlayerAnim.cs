@@ -22,7 +22,7 @@ public class PlayerAnim : MonoBehaviour
     {
         onGround = playerMovement.onGround;
         moveSpeed = Mathf.Abs(playerMovement.rb.velocity.x);
-        isDead = !player.alive;
+        isDead = !player.Alive;
 
         animator.SetBool("onGround", onGround);
         animator.SetFloat("moveSpeed", moveSpeed);

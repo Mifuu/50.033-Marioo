@@ -53,7 +53,6 @@ public class UoombaScript : MonoBehaviour
         }
 
         rb.gravityScale = gravity * (1 - (legContactNum * gravityFacDecreasePerLeg));
-        Debug.Log(rb.gravityScale);
     }
 
     IEnumerator GoombaIdleIE()

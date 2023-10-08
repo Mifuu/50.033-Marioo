@@ -28,6 +28,8 @@ public class Shotgun : MonoBehaviour
 
     void Update()
     {
+        if (!Player.instance.Alive) return;
+
         cooldownTimer -= Time.deltaTime;
 
         if (Input.GetMouseButtonDown(0) && cooldownTimer < 0)
@@ -79,7 +81,7 @@ public class Shotgun : MonoBehaviour
                     e.Dead();
                     GameManager.instance.AddScore();
                 }
-                var u = hit.transform.parent.GetComponent<UoombaScript>();
+                var u = hit.transform.GetComponent<UoombaScript>();
                 if (u != null)
                 {
                     u.Knock((cursor - (Vector2)transform.position) * knockSpeed);

@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    public static GameManager instance;
-
-    private int score = 0;
+    public IntVariable gameScore;
 
     [Header("UIs")]
     public TextMeshProUGUI scoreText;
@@ -31,23 +29,18 @@ public class GameManager : MonoBehaviour
             // reset UI
             gameoverPanel.SetActive(false);
 
-            score = 0;
-            scoreText.text = "Score:0";
+            gameScore.Value = 0;
+            UpdateScoreText();
         };
-    }
-
-    void Awake()
-    {
-        if (instance != null && instance != this)
-        {
-            Destroy(this);
-            return;
-        }
-        instance = this;
     }
 
     void Start()
     {
+        // reset UI
+        gameoverPanel.SetActive(false);
+        gameScore.Value = 0;
+        UpdateScoreText();
+
         Application.targetFrameRate = 30;
 
         //ResetGame();
@@ -55,16 +48,23 @@ public class GameManager : MonoBehaviour
 
     public void AddScore(int add = 1)
     {
-        score += add;
+        gameScore.ApplyChange(add);
         UpdateScoreText();
     }
 
     void UpdateScoreText()
     {
-        scoreText.text = "Score:" + score.ToString();
+        GameplayUI.instance.SetScore(gameScore.Value);
+        GameplayUI.instance.SetHighScore(gameScore.previousHighestValue);
     }
 
-    public void RestartButtonCallback(int input)
+    public void UpdateHealthUI(int health, int maxHealth)
+    {
+        GameplayUI.instance.SetMaxHealth(maxHealth);
+        GameplayUI.instance.SetHealth(health);
+    }
+
+    public void RestartButtonCallback()
     {
         Debug.Log("Restart!");
         // reset everything
@@ -78,7 +78,8 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         isGameover = false;
 
-        onRestart.Invoke();
+        // onRestart.Invoke();
+        ChangeSceneManager.instance.ChangeSceneFade("SampleScene 1");
     }
 
     public void GameOver()
@@ -105,7 +106,7 @@ public class GameManager : MonoBehaviour
 
         // show gameover
         gameoverText.text = "Wasted";
-        gameoverScoreText.text = "score:" + score;
+        gameoverScoreText.text = "score:" + gameScore.Value;
         gameoverPanel.SetActive(true);
     }
 

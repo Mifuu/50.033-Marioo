@@ -6,6 +6,8 @@ using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public GameConstants gc;
+
     [Header("Movement Settings")]
     public float speed = 10;
     public float maxSpeed = 20;
@@ -48,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
     {
         inputX = context.ReadValue<float>();
 
+        if (!player.Alive) return;
         if (inputX < 0)
             sr.flipX = true;
         if (inputX > 0)
@@ -69,6 +72,11 @@ public class PlayerMovement : MonoBehaviour
                 Jump(upSpeedLiftKeyFactor);
             }
         }
+    }
+
+    void Awake()
+    {
+        TrySetConstant();
     }
 
     // Start is called before the first frame update
@@ -93,10 +101,16 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position, collider.bounds.size + (2 * collider.edgeRadius) * Vector3.one, 0, transform.up, 0, enemyMask);
         foreach (var hit in hits)
         {
-            if (hit && !hit.transform.GetComponent<EnemyMovement>().isDead)
+            EnemyMovement e = hit.transform.GetComponent<EnemyMovement>();
+            if (hit && e && !e.isDead)
             {
-                player.alive = false;
-                GameManager.instance.GameOver();
+                player.TakeDamage();
+            }
+
+            UoombaScript u = hit.transform.GetComponent<UoombaScript>();
+            if (hit && u)
+            {
+                player.TakeDamage();
             }
         }
     }
@@ -127,7 +141,7 @@ public class PlayerMovement : MonoBehaviour
 
     void MoveUpdate()
     {
-        if (!player.alive) return;
+        if (!player.Alive) return;
 
         float velocityX = rb.velocity.x;
         float _inputX = inputX * speed;
@@ -209,5 +223,30 @@ public class PlayerMovement : MonoBehaviour
         }
 
         return isHit;
+    }
+
+    void OnValidate()
+    {
+        TrySetConstant();
+    }
+
+    void TrySetConstant()
+    {
+        if (gc == null) return;
+        speed = gc.player.speed;
+        maxSpeed = gc.player.maxSpeed;
+        smoothTime = gc.player.smoothTime;
+
+        wsRaycastCount = gc.player.wsRaycastCount;
+        wsCheckDist = gc.player.wsCheckDist;
+        wsLayerMask = gc.player.wsLayerMask;
+
+        upSpeed = gc.player.upSpeed;
+        upSpeedLiftKeyFactor = gc.player.upSpeedLiftKeyFactor;
+        coyoteTime = gc.player.coyoteTime;
+        groundCheckDist = gc.player.groundCheckDist;
+        groundMask = gc.player.groundMask;
+
+        enemyMask = gc.player.enemyMask;
     }
 }

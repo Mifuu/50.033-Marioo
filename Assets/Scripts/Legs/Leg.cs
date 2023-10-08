@@ -136,17 +136,17 @@ public class Leg : MonoBehaviour
         if (Mathf.Abs(velocity.x) < 0.001f)
         {
             rayAngle = angle;
-            Debug.Log("0");
+            // Debug.Log("0");
         }
         else if (velocity.x > 0)
         {
             rayAngle = angleRight;
-            Debug.Log("1");
+            // Debug.Log("1");
         }
         else
         {
             rayAngle = angleLeft;
-            Debug.Log("-1");
+            // Debug.Log("-1");
         }
 
         Vector2 rayDir = AngPosUtil.GetAngularPos(rayAngle, rayLength);

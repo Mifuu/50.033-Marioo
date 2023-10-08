@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class JumpBlock : MonoBehaviour
 {
@@ -9,10 +10,11 @@ public class JumpBlock : MonoBehaviour
     new public Collider2D collider;
 
     public Animator questionBlockAnimator;
-    public Animator coinAnimator;
 
     public int defaultActivatationCount = 1;
     private int remainingActivation = 1;
+
+    public UnityEvent triggerEvent;
 
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -28,8 +30,10 @@ public class JumpBlock : MonoBehaviour
     {
         if (remainingActivation < 1) return;
 
-        coinAnimator.SetTrigger("trigger");
         SFXManager.TryPlaySFX("mario_coin", gameObject);
+
+        triggerEvent.Invoke();
+        GameManager.instance.AddScore();
 
         remainingActivation--;
         if (remainingActivation < 1)
