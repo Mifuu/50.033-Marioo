@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7721fb2993da4add876d1919e3003c3, type: 3}
+  m_Name: dp_uoomba
+  m_EditorClassIdentifier: 
+  dropPool:
+  - drop: {fileID: 6834630673465636045, guid: 3abfd033e62564bef9496606a2b4ca2a, type: 3}
+    pool: 14
+    sfxName: drop_coin_copper
+  - drop: {fileID: 3561608981644828644, guid: c3105954c7a504b278621d5e446adaec, type: 3}
+    pool: 3
+    sfxName: drop_coin_silver
+  - drop: {fileID: 1201663442948849275, guid: 131bd6c3c739a4b97b73ac27b521f4b7, type: 3}
+    pool: 1
+    sfxName: drop_coin_gold
+  - drop: {fileID: 0}
+    pool: 5
+    sfxName: 

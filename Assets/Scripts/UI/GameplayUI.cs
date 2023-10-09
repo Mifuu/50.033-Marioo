@@ -11,6 +11,8 @@ public class GameplayUI : Singleton<GameplayUI>
     public TMP_Text p_score;
     public Slider p_health;
     public TMP_Text p_health_text;
+    public TMP_Text p_coin;
+    public Slider p_event;
 
     [Header("Gameover Panel")]
     public GameObject gameoverPanel;
@@ -40,6 +42,16 @@ public class GameplayUI : Singleton<GameplayUI>
     public void SetMaxHealth(int maxHealth)
     {
         p_health.maxValue = maxHealth;
+    }
+
+    public void SetCoin(int coin)
+    {
+        p_coin.text = ":" + coin;
+    }
+
+    public void SetEventSlider(float eventRatio)
+    {
+        p_event.value = eventRatio;
     }
 
     public void SetPanel(Panel panel)

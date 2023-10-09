@@ -287,6 +287,7 @@ GameObject:
   - component: {fileID: 1547702846242514217}
   - component: {fileID: 2593884272680996330}
   - component: {fileID: 358159398612189576}
+  - component: {fileID: 8101668472407873624}
   m_Layer: 8
   m_Name: HP Canvas
   m_TagString: Untagged
@@ -377,6 +378,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!225 &8101668472407873624
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4329599956284088025}
+  m_Enabled: 1
+  m_Alpha: 0.45
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &8084513896182277665
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,6 +646,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 5
   hpSlider: {fileID: 123117091582624926}
+  hpCanvasGroup: {fileID: 8101668472407873624}
   fadeSprites:
   - {fileID: 7464317475485080557}
   - {fileID: 4936929250226439070}
@@ -643,6 +657,8 @@ MonoBehaviour:
   - {fileID: 3005849618208240794}
   - {fileID: 7100892314449972330}
   - {fileID: 2653657602423078682}
+  dropPool: {fileID: 11400000, guid: 2298e6d05909e43f386bd35df93c9a1b, type: 2}
+  particlePrefab: {fileID: 5579728649327028375, guid: 816787066173d4894a3820e58e0c3b05, type: 3}
   rb: {fileID: 6693021931110325667}
   autoStartPosition: 1
   startPosition: {x: 0, y: 0, z: 0}

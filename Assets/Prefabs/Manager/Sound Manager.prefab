@@ -80,3 +80,28 @@ MonoBehaviour:
     volume: 0.17
     audioMixerGroup: {fileID: 3582864336284755210, guid: 87d10e8baa9a54910b23230d4bb7c36e, type: 2}
     source: {fileID: 0}
+  - name: mon_damage_1
+    clip: {fileID: 8300000, guid: 0c944a7fe30094525a3a9319a35c6fd1, type: 3}
+    volume: 0.56
+    audioMixerGroup: {fileID: 3582864336284755210, guid: 87d10e8baa9a54910b23230d4bb7c36e, type: 2}
+    source: {fileID: 0}
+  - name: mon_dead_1
+    clip: {fileID: 8300000, guid: 87c53e213518443a99da4fd08dbf0021, type: 3}
+    volume: 0.64
+    audioMixerGroup: {fileID: 3582864336284755210, guid: 87d10e8baa9a54910b23230d4bb7c36e, type: 2}
+    source: {fileID: 0}
+  - name: drop_coin_copper
+    clip: {fileID: 8300000, guid: e6504dd1981a9482b82387484eddfd78, type: 3}
+    volume: 0.37
+    audioMixerGroup: {fileID: -5508668206008841293, guid: 87d10e8baa9a54910b23230d4bb7c36e, type: 2}
+    source: {fileID: 0}
+  - name: drop_coin_silver
+    clip: {fileID: 8300000, guid: c91a0b3f391cd462b9e28b27c963263d, type: 3}
+    volume: 0.51
+    audioMixerGroup: {fileID: -5508668206008841293, guid: 87d10e8baa9a54910b23230d4bb7c36e, type: 2}
+    source: {fileID: 0}
+  - name: drop_coin_gold
+    clip: {fileID: 8300000, guid: 3c98f36205b004f64a303d3c593b6e7d, type: 3}
+    volume: 0.64
+    audioMixerGroup: {fileID: -5508668206008841293, guid: 87d10e8baa9a54910b23230d4bb7c36e, type: 2}
+    source: {fileID: 0}

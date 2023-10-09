@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: dmg_shotgunchi
   m_EditorClassIdentifier: 
   value: 1
-  knockFac: 2
-  isHeavy: 0
+  knockFac: 10
+  isHeavy: 1

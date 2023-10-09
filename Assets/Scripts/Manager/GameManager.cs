@@ -6,6 +6,9 @@ using TMPro;
 public class GameManager : Singleton<GameManager>
 {
     public IntVariable gameScore;
+    public IntVariable coin;
+    private float eventTime = 300;
+    private float time;
 
     [Header("UIs")]
     public TextMeshProUGUI scoreText;
@@ -21,6 +24,12 @@ public class GameManager : Singleton<GameManager>
     // restart
     public delegate void OnRestart();
     public OnRestart onRestart;
+
+    void Update()
+    {
+        time += Time.deltaTime;
+        UpdateEventSlider();
+    }
 
     void OnEnable()
     {
@@ -40,6 +49,10 @@ public class GameManager : Singleton<GameManager>
         gameoverPanel.SetActive(false);
         gameScore.Value = 0;
         UpdateScoreText();
+        coin.Value = 0;
+        UpdateCoinText();
+        time = 0;
+        UpdateEventSlider();
 
         Application.targetFrameRate = 30;
 
@@ -52,6 +65,12 @@ public class GameManager : Singleton<GameManager>
         UpdateScoreText();
     }
 
+    public void AddCoin(int add = 1)
+    {
+        coin.ApplyChange(add);
+        UpdateCoinText();
+    }
+
     void UpdateScoreText()
     {
         GameplayUI.instance.SetScore(gameScore.Value);
@@ -62,6 +81,18 @@ public class GameManager : Singleton<GameManager>
     {
         GameplayUI.instance.SetMaxHealth(maxHealth);
         GameplayUI.instance.SetHealth(health);
+    }
+
+    void UpdateCoinText()
+    {
+        GameplayUI.instance.SetCoin(coin.Value);
+    }
+
+    void UpdateEventSlider()
+    {
+        float eventRatio = time / eventTime;
+        eventRatio = Mathf.Clamp(eventRatio, 0, 1);
+        GameplayUI.instance.SetEventSlider(eventRatio);
     }
 
     public void RestartButtonCallback()

@@ -9,11 +9,18 @@ public class Damageable : MonoBehaviour
     [Header("Damageable: Health")]
     public int maxHP = 20;
     public Slider hpSlider;
+    public CanvasGroup hpCanvasGroup;
     protected float destroyDelay = 2;
 
     [Header("Damageable: Sprite Fade")]
     protected float spriteFadeTime = 2;
     public SpriteRenderer[] fadeSprites;
+
+    [Header("Damageable: Drop")]
+    public DropPool dropPool;
+
+    [Header("Damageable: Particle")]
+    public GameObject particlePrefab;
 
     private int hp;
     public int HP
@@ -30,8 +37,13 @@ public class Damageable : MonoBehaviour
             {   // don't show slider when hp is full
                 hpSlider.gameObject.SetActive(false);
             }
+            else if (hp == maxHP)
+            {
+                hpCanvasGroup.alpha = 0.5f;
+            }
             else
             {
+                hpCanvasGroup.alpha = 1;
                 hpSlider.gameObject.SetActive(true);
                 hpSlider.value = hp / (float)maxHP;
             }
@@ -45,18 +57,39 @@ public class Damageable : MonoBehaviour
 
     protected virtual void Dead(Damage dmg, Vector2 dir)
     {
+        DropItem();
         StartCoroutine(FadeOutSpritesIE());
         StartCoroutine(DelayDestroy());
     }
 
     public virtual void TakeDamage(Damage dmg, Vector2 dir)
     {
+        if (HP <= 0) return;
+
         HP -= dmg.value;
+
+        if (particlePrefab != null)
+        {
+            Instantiate(particlePrefab, transform.position, Quaternion.identity);
+        }
 
         if (HP <= 0)
         {
             Dead(dmg, dir);
         }
+    }
+
+    private void DropItem()
+    {
+        DropPoolItem d = dropPool.GetDropPoolItem();
+
+        if (d.drop != null)
+        {
+            Instantiate(d.drop, transform.position, Quaternion.identity);
+        }
+
+        SFXManager.TryPlaySFX(d.sfxName, gameObject);
+
     }
 
     protected IEnumerator FadeOutSpritesIE()
