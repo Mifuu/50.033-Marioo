@@ -401,7 +401,7 @@ GameObject:
   - component: {fileID: 8242076447492086348}
   - component: {fileID: 7464317475485080557}
   - component: {fileID: 2234314562433450710}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: Goomba Undead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -486,7 +486,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8084513896182277665}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -522,7 +522,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.34, y: 1.17}
+  m_Size: {x: 1.1180605, y: 1.0567861}
   m_EdgeRadius: 0
 --- !u!1 &8291503003042748419
 GameObject:
@@ -660,6 +660,21 @@ MonoBehaviour:
   dropPool: {fileID: 11400000, guid: 2298e6d05909e43f386bd35df93c9a1b, type: 2}
   spawnParticle: {fileID: 391374355170942502, guid: 92dcbff1941a1414c9a4c31debd69db7, type: 3}
   damageParticle: {fileID: 5579728649327028375, guid: 816787066173d4894a3820e58e0c3b05, type: 3}
+  onDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3048734045665254829}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   rb: {fileID: 6693021931110325667}
   autoStartPosition: 1
   startPosition: {x: 0, y: 0, z: 0}

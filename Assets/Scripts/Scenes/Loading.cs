@@ -33,7 +33,7 @@ public class Loading : MonoBehaviour
 
     IEnumerator LoadingIE()
     {
-        yield return new WaitForSeconds(1.3f);
+        yield return new WaitForSeconds(2.2f);
         ChangeSceneManager.instance.ChangeSceneFade("SampleScene 1", 1.2f);
     }
 }

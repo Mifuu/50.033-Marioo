@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Collider2D))]
 public class Damageable : MonoBehaviour
@@ -22,6 +23,9 @@ public class Damageable : MonoBehaviour
     [Header("Damageable: Particle")]
     public GameObject spawnParticle;
     public GameObject damageParticle;
+
+    [Header("Damageable: Event")]
+    public UnityEvent onDeath;
 
     private int hp;
     public int HP
@@ -63,6 +67,7 @@ public class Damageable : MonoBehaviour
 
     protected virtual void Dead(Damage dmg, Vector2 dir)
     {
+        onDeath.Invoke();
         DropItem();
         StartCoroutine(FadeOutSpritesIE());
         StartCoroutine(DelayDestroy());

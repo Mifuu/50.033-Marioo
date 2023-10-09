@@ -51,6 +51,8 @@ public class Shotgun : MonoBehaviour
 
     void Fire()
     {
+        CameraShake.instance.Shake();
+
         playerMovement.Knock(-(cursor - (Vector2)transform.position) * recoilSpeed);
         cooldownTimer = cooldown;
         Instantiate(gunShotParticle, barrelEnd.position, Quaternion.identity);

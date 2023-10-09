@@ -22,6 +22,3 @@ MonoBehaviour:
   - drop: {fileID: 1201663442948849275, guid: 131bd6c3c739a4b97b73ac27b521f4b7, type: 3}
     pool: 1
     sfxName: drop_coin_gold
-  - drop: {fileID: 0}
-    pool: 5
-    sfxName: 
