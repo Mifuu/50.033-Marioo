@@ -2,14 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UoombaScript : MonoBehaviour
+public class UoombaScript : Damageable
 {
-
-
+    [Space]
+    [Header("Uoomba")]
     public Rigidbody2D rb;
-
-    [HideInInspector]
-    public bool isDead = false;
 
     public bool autoStartPosition = true;
     public Vector3 startPosition;
@@ -28,8 +25,10 @@ public class UoombaScript : MonoBehaviour
     public float gravityFacDecreasePerLeg;
     private float gravity;
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         // get the starting position
         if (autoStartPosition)
         {
@@ -53,6 +52,8 @@ public class UoombaScript : MonoBehaviour
         }
 
         rb.gravityScale = gravity * (1 - (legContactNum * gravityFacDecreasePerLeg));
+
+        if (HP <= 0) rb.gravityScale = gravity;
     }
 
     IEnumerator GoombaIdleIE()
@@ -82,14 +83,33 @@ public class UoombaScript : MonoBehaviour
     {
         transform.position = startPosition;
 
-        isDead = false;
+        HP = maxHP;
         rendererTransform.localScale = startScale;
     }
 
-    public void Dead()
+    public override void TakeDamage(Damage dmg, Vector2 dir)
     {
-        isDead = true;
-        rendererTransform.localScale = new Vector3(startScale.x, startScale.y * 0.6f, startScale.z);
+        SFXManager.TryPlaySFX("mon_damage_1", gameObject);
+
+        Knock(dmg.knockFac * dir.normalized);
+
+        base.TakeDamage(dmg, dir);
+    }
+
+    protected override void Dead(Damage dmg, Vector2 dir)
+    {
+        SFXManager.TryPlaySFX("mon_dead_1", gameObject);
+
+        if (dmg.isHeavy)
+        {
+            DetachLegs(dmg.knockFac * dir);
+        }
+
+        Knock(dmg.knockFac * dir);
+        rb.freezeRotation = false;
+        rb.angularVelocity = Random.Range(-180, 180);
+
+        base.Dead(dmg, dir);
     }
 
     public void Knock(Vector2 velo)
@@ -97,5 +117,13 @@ public class UoombaScript : MonoBehaviour
         // Vector2 velocity = rb.velocity;
         rb.velocity = velo;
         // rb.velocity = velocity;
+    }
+
+    private void DetachLegs(Vector2 velocity)
+    {
+        foreach (var l in legs)
+        {
+            l.Detach(velocity);
+        }
     }
 }

@@ -62,7 +62,10 @@ public class PlayerMovement : MonoBehaviour
         if (context.performed)
         {
             if (timeSinceGround < coyoteTime)
+            {
+                SFXManager.TryPlaySFX("mario_jump", gameObject);
                 Jump();
+            }
         }
         else if (context.canceled)
         {
@@ -108,7 +111,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             UoombaScript u = hit.transform.GetComponent<UoombaScript>();
-            if (hit && u)
+            if (hit && u && u.HP > 0)
             {
                 player.TakeDamage();
             }

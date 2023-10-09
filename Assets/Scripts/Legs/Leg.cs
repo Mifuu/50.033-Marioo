@@ -37,6 +37,12 @@ public class Leg : MonoBehaviour
     private Vector2 pos;
     private Vector2 velocity;
 
+    [Header("Detach")]
+    public BoxCollider2D boneCollider1;
+    public BoxCollider2D boneCollider2;
+    public Rigidbody2D boneRB1;
+    public Rigidbody2D boneRB2;
+
     // [Header("SFX")] // https://www.zapsplat.com/sound-effect-category/footsteps/
     private string[] stepSFXs = { "mon_step_1", "mon_step_2", "mon_step_3", "mon_step_4" };
 
@@ -184,5 +190,24 @@ public class Leg : MonoBehaviour
     {
         legIK.length = length;
         legIK.altAngle = altIK;
+    }
+
+    [ContextMenu("Detach")]
+    public void Detach()
+    {
+        Detach(Vector2.zero);
+    }
+    public void Detach(Vector2 velocity)
+    {
+        legIK.enabled = false;
+        this.enabled = false;
+        boneCollider1.enabled = true;
+        boneCollider2.enabled = true;
+        boneRB1.bodyType = RigidbodyType2D.Dynamic;
+        boneRB2.bodyType = RigidbodyType2D.Dynamic;
+        boneRB1.velocity = velocity;
+        boneRB2.velocity = velocity;
+        boneRB1.simulated = true;
+        boneRB2.simulated = true;
     }
 }

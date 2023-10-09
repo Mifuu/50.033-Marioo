@@ -20,8 +20,13 @@ public class Shotgun : MonoBehaviour
     public Transform barrelEnd;
     public Transform gunRotate;
 
+    [Header("Damage")]
+    public Damage damage;
+
     private float angle;
     private Vector2 cursor;
+
+
 
     [Header("Requirements")]
     public PlayerMovement playerMovement;
@@ -78,15 +83,20 @@ public class Shotgun : MonoBehaviour
                 if (e != null)
                 {
                     e.Knock((cursor - (Vector2)transform.position) * knockSpeed);
-                    e.Dead();
+                    // e.Dead();
                     GameManager.instance.AddScore();
                 }
                 var u = hit.transform.GetComponent<UoombaScript>();
                 if (u != null)
                 {
                     u.Knock((cursor - (Vector2)transform.position) * knockSpeed);
-                    u.Dead();
+                    // u.Dead();
                     GameManager.instance.AddScore();
+                }
+                var d = hit.transform.GetComponent<Damageable>();
+                if (d != null)
+                {
+                    d.TakeDamage(damage, target);
                 }
                 Instantiate(gunHitParticle, hit.point, Quaternion.identity);
             }
