@@ -55,6 +55,8 @@ public class Shotgun : MonoBehaviour
         cooldownTimer = cooldown;
         Instantiate(gunShotParticle, barrelEnd.position, Quaternion.identity);
 
+        SFXManager.TryPlaySFX("proj_laser_2", Player.instance.gameObject);
+
         for (int i = 0; i < ProjPerShot; i++)
         {
             // scatter target pos

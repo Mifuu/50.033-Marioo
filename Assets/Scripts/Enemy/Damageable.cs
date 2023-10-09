@@ -20,7 +20,8 @@ public class Damageable : MonoBehaviour
     public DropPool dropPool;
 
     [Header("Damageable: Particle")]
-    public GameObject particlePrefab;
+    public GameObject spawnParticle;
+    public GameObject damageParticle;
 
     private int hp;
     public int HP
@@ -53,6 +54,11 @@ public class Damageable : MonoBehaviour
     protected virtual void Awake()
     {
         HP = maxHP;
+
+        if (spawnParticle != null)
+        {
+            Instantiate(spawnParticle, transform.position, Quaternion.identity);
+        }
     }
 
     protected virtual void Dead(Damage dmg, Vector2 dir)
@@ -68,9 +74,9 @@ public class Damageable : MonoBehaviour
 
         HP -= dmg.value;
 
-        if (particlePrefab != null)
+        if (damageParticle != null)
         {
-            Instantiate(particlePrefab, transform.position, Quaternion.identity);
+            Instantiate(damageParticle, transform.position, Quaternion.identity);
         }
 
         if (HP <= 0)

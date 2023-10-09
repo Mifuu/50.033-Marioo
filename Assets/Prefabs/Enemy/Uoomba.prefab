@@ -658,7 +658,8 @@ MonoBehaviour:
   - {fileID: 7100892314449972330}
   - {fileID: 2653657602423078682}
   dropPool: {fileID: 11400000, guid: 2298e6d05909e43f386bd35df93c9a1b, type: 2}
-  particlePrefab: {fileID: 5579728649327028375, guid: 816787066173d4894a3820e58e0c3b05, type: 3}
+  spawnParticle: {fileID: 391374355170942502, guid: 92dcbff1941a1414c9a4c31debd69db7, type: 3}
+  damageParticle: {fileID: 5579728649327028375, guid: 816787066173d4894a3820e58e0c3b05, type: 3}
   rb: {fileID: 6693021931110325667}
   autoStartPosition: 1
   startPosition: {x: 0, y: 0, z: 0}

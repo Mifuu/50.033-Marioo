@@ -199,14 +199,17 @@ public class Leg : MonoBehaviour
     }
     public void Detach(Vector2 velocity)
     {
+        float angle = YUtil.AngPosUtil.GetAngle(Vector2.zero, velocity);
+        float mag = velocity.magnitude;
+
         legIK.enabled = false;
         this.enabled = false;
         boneCollider1.enabled = true;
         boneCollider2.enabled = true;
         boneRB1.bodyType = RigidbodyType2D.Dynamic;
         boneRB2.bodyType = RigidbodyType2D.Dynamic;
-        boneRB1.velocity = velocity;
-        boneRB2.velocity = velocity;
+        boneRB1.velocity = YUtil.AngPosUtil.GetAngularPos(angle, mag, 20);
+        boneRB2.velocity = YUtil.AngPosUtil.GetAngularPos(angle, mag, 20);
         boneRB1.simulated = true;
         boneRB2.simulated = true;
     }
