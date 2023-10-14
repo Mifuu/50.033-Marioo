@@ -6,6 +6,9 @@ using TMPro;
 
 public class GameplayUI : Singleton<GameplayUI>
 {
+    public IntVariable score;
+    public IntVariable coin;
+
     [Header("Play Panel")]
     public GameObject playPanel;
     public TMP_Text p_score;
@@ -22,15 +25,23 @@ public class GameplayUI : Singleton<GameplayUI>
     public enum Panel { Play, Gameover, None }
     private Panel panel;
 
-    public void SetScore(int score)
+    void Update()
     {
-        p_score.text = "score:" + score;
-        g_score.text = "score:" + score;
+        p_score.text = "score:" + score.Value;
+        g_score.text = "score:" + score.Value;
+        g_highScore.text = "highscore:" + score.previousHighestValue;
+        p_coin.text = ":" + coin.Value;
     }
 
-    public void SetHighScore(int highScore)
+    public void SetScore()
     {
-        g_highScore.text = "highscore:" + highScore;
+        p_score.text = "score:" + score.Value;
+        g_score.text = "score:" + score.Value;
+    }
+
+    public void SetHighScore()
+    {
+        g_highScore.text = "highscore:" + score.previousHighestValue;
     }
 
     public void SetHealth(int health)
@@ -75,5 +86,21 @@ public class GameplayUI : Singleton<GameplayUI>
     {
         playPanel.SetActive(false);
         gameoverPanel.SetActive(false);
+    }
+
+    public void OnGameover()
+    {
+        StartCoroutine(OnGameoverIE());
+    }
+
+    IEnumerator OnGameoverIE()
+    {
+        yield return new WaitForSeconds(1.6f);
+
+        // timescale = 0
+        Time.timeScale = 0f;
+
+        // show gameover
+        gameoverPanel.SetActive(true);
     }
 }

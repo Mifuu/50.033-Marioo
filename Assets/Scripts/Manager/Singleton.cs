@@ -15,8 +15,6 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
     protected virtual void Awake()
     {
-        Debug.Log("Singleton Awake() called");
-
         if (_instance == null)
         {
             _instance = this as T;

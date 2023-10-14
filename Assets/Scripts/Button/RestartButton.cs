@@ -7,6 +7,6 @@ public class RestartButtonController : MonoBehaviour, IInteractiveButton
     public void ButtonClick()
     {
         Debug.Log("On click restart button");
-        GameManager.instance.RestartButtonCallback();
+        // GameManager.instance.RestartButtonCallback();
     }
 }

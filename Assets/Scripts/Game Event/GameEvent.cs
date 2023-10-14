@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(fileName = "GameEvent", menuName = "ScriptableObjects/GameEvent", order = 3)]
+[CreateAssetMenu(fileName = "GameEvent", menuName = "GameEvents/GameEvent", order = 1)]
 public class GameEvent<T> : ScriptableObject
 {
     private readonly List<GameEventListener<T>> eventListeners =

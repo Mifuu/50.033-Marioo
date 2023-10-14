@@ -22,8 +22,14 @@ public class ChangeSceneManager : Singleton<ChangeSceneManager>
         ChangeSceneFade(nextSceneName);
     }
 
-    public void ChangeSceneFade(string scene, float time = 0.5f)
+    public void ChangeSceneFade(string scene)
     {
+        ChangeSceneFade(scene, 0.5f);
+    }
+
+    public void ChangeSceneFade(string scene, float time)
+    {
+        Time.timeScale = 1;
         if (FadeUI.instance != null)
             StartCoroutine(ChangeSceneFadeIE(scene, time));
         else

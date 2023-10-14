@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : Singleton<Player>
 {
@@ -19,7 +20,11 @@ public class Player : Singleton<Player>
         {
             health = value;
             if (GameManager.instance != null)
-                GameManager.instance.UpdateHealthUI(health, maxHealth);
+            {
+                // GameManager.instance.UpdateHealthUI(health, maxHealth);
+                onSetHP.Invoke(health);
+                onSetMaxHP.Invoke(gc.player.maxHealth);
+            }
         }
     }
     private int maxHealth;
@@ -28,6 +33,10 @@ public class Player : Singleton<Player>
     {
         get { return Health > 0; }
     }
+    public UnityEvent onGameOver;
+    public UnityEvent<int> onSetHP;
+    public UnityEvent<int> onSetMaxHP;
+    bool isGameover = false;
 
     [Header("Requirements")]
     public PlayerMovement playerMovement;
@@ -46,18 +55,6 @@ public class Player : Singleton<Player>
     void Update()
     {
         iTime -= Time.deltaTime;
-    }
-
-    void OnEnable()
-    {
-        if (GameManager.instance != null)
-            GameManager.instance.onRestart += Reset;
-    }
-
-    void OnDisable()
-    {
-        if (GameManager.instance != null)
-            GameManager.instance.onRestart -= Reset;
     }
 
     public void Reset()
@@ -80,11 +77,31 @@ public class Player : Singleton<Player>
         Health -= 1;
         if (Health < 0) Health = 0;
 
-        if (Health < 1) GameManager.instance.GameOver();
+        if (Health < 1)
+        {
+            if (isGameover == true) return;
+            {
+                isGameover = true;
+                onGameOver.Invoke();
+                StartCoroutine(OnGameover());
+            }
+        }
     }
 
     public void EnableShotgun(bool value)
     {
         shotgun.SetActive(value);
+    }
+
+    IEnumerator OnGameover()
+    {
+        SFXManager.instance.PlaySFX("mario_dead", gameObject);
+
+        yield return new WaitForSeconds(0.6f);
+
+        // knock player up
+        Player.instance.playerMovement.Knock(Vector2.up * 24f);
+
+        yield return new WaitForSeconds(1.0f);
     }
 }

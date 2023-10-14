@@ -31,26 +31,14 @@ public class GameManager : Singleton<GameManager>
         UpdateEventSlider();
     }
 
-    void OnEnable()
-    {
-        onRestart += () =>
-        {
-            // reset UI
-            gameoverPanel.SetActive(false);
-
-            gameScore.Value = 0;
-            UpdateScoreText();
-        };
-    }
-
     void Start()
     {
         // reset UI
         gameoverPanel.SetActive(false);
         gameScore.Value = 0;
-        UpdateScoreText();
+        // UpdateScoreText();
         coin.Value = 0;
-        UpdateCoinText();
+        // UpdateCoinText();
         time = 0;
         UpdateEventSlider();
 
@@ -62,19 +50,18 @@ public class GameManager : Singleton<GameManager>
     public void AddScore(int add = 1)
     {
         gameScore.ApplyChange(add);
-        UpdateScoreText();
+        // UpdateScoreText();
     }
 
     public void AddCoin(int add = 1)
     {
         coin.ApplyChange(add);
-        UpdateCoinText();
     }
 
     void UpdateScoreText()
     {
-        GameplayUI.instance.SetScore(gameScore.Value);
-        GameplayUI.instance.SetHighScore(gameScore.previousHighestValue);
+        // GameplayUI.instance.SetScore(gameScore.Value);
+        // GameplayUI.instance.SetHighScore(gameScore.previousHighestValue);
     }
 
     public void UpdateHealthUI(int health, int maxHealth)

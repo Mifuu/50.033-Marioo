@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GameConstants
   m_EditorClassIdentifier: 
   player:
-    maxHealth: 1
+    maxHealth: 3
     dmgITime: 1
     speed: 7.5
     maxSpeed: 20

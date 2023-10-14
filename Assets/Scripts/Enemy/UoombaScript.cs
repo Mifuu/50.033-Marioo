@@ -69,16 +69,6 @@ public class UoombaScript : Damageable
         StartCoroutine(GoombaIdleIE());
     }
 
-    void OnEnable()
-    {
-        GameManager.instance.onRestart += Reset;
-    }
-
-    void OnDisable()
-    {
-        GameManager.instance.onRestart -= Reset;
-    }
-
     public void Reset()
     {
         transform.position = startPosition;
