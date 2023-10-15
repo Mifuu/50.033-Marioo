@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 927cd6e52585b4f50bb7a6b3bbf8791c, type: 3}
+  m_Name: StateKitagun
+  m_EditorClassIdentifier: 
+  setupActions:
+  - {fileID: 11400000, guid: 95ab4fb85f9fb4a2188eaca1c2d86a5c, type: 2}
+  - {fileID: 11400000, guid: 7f0581c98f3b549b8940e57950d07895, type: 2}
+  actions: []
+  eventTriggeredActions: []
+  exitActions: []
+  transitions:
+  - decision: {fileID: 11400000, guid: ea2559267bef74923a58687ed7838d24, type: 2}
+    trueState: {fileID: 11400000, guid: eb814ed8a3d0744a7a1c1a9e78f7a782, type: 2}
+    falseState: {fileID: 11400000, guid: deec020cfc3f04428a7c27381dfc9f79, type: 2}
+  - decision: {fileID: 11400000, guid: 258ce014fa62c49429b958c39b0e7113, type: 2}
+    trueState: {fileID: 11400000, guid: 72c5f7e7e952a4ab990133f3955e768b, type: 2}
+    falseState: {fileID: 11400000, guid: deec020cfc3f04428a7c27381dfc9f79, type: 2}
+  - decision: {fileID: 11400000, guid: bbe7bd3bde7f34b318796638079273ef, type: 2}
+    trueState: {fileID: 11400000, guid: 671072985e84345a690882bb618c59d3, type: 2}
+    falseState: {fileID: 11400000, guid: deec020cfc3f04428a7c27381dfc9f79, type: 2}
+  - decision: {fileID: 11400000, guid: 63311c591d6554471b52beddffd3a807, type: 2}
+    trueState: {fileID: 11400000}
+    falseState: {fileID: 11400000, guid: deec020cfc3f04428a7c27381dfc9f79, type: 2}
+  - decision: {fileID: 11400000, guid: 201e10e0f4f414ffdbff974639f3a4cd, type: 2}
+    trueState: {fileID: 11400000, guid: 7eb0b069494734166b1fda6f49ba61fe, type: 2}
+    falseState: {fileID: 11400000, guid: deec020cfc3f04428a7c27381dfc9f79, type: 2}
+  sceneGizmoColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}

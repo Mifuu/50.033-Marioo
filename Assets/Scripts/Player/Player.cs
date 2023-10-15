@@ -45,6 +45,10 @@ public class Player : Singleton<Player>
 
     [Header("Shotgun")]
     public GameObject shotgun;
+    public PlayerGun playerGun;
+
+    [Header("FSM")]
+    public PlayerStateController stateController;
 
     void Start()
     {
@@ -76,6 +80,8 @@ public class Player : Singleton<Player>
         iTime = gc.player.dmgITime;
         Health -= 1;
         if (Health < 0) Health = 0;
+        stateController.SetPowerup(PowerupType.Damage);
+        CameraShake.instance.Shake(0.5f);
 
         if (Health < 1)
         {

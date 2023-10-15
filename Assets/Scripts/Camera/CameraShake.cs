@@ -28,9 +28,9 @@ public class CameraShake : Singleton<CameraShake>
         magnitude *= magnitudeDegradation;
     }
 
-    public void Shake(float mag = 0.2f)
+    public void Shake(float mag = 1)
     {
-        magnitude = mag;
+        magnitude = mag * 0.2f;
         onShake.Invoke();
     }
 
