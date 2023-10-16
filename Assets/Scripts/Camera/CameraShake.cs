@@ -31,7 +31,8 @@ public class CameraShake : Singleton<CameraShake>
     public void Shake(float mag = 1)
     {
         magnitude = mag * 0.2f;
-        onShake.Invoke();
+        if (mag > 0.5f)
+            onShake.Invoke();
     }
 
     Vector3 GetOffset()

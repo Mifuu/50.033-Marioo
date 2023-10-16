@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31b5dfb5b456847619e6512f45b4952c, type: 3}
-  m_Name: dmg_shotgunchi
+  m_Name: dmg_kitagun
   m_EditorClassIdentifier: 
-  value: 5
+  value: 6
   knockFac: 6
   isHeavy: 1

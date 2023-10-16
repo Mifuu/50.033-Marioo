@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LaserProjectile : MonoBehaviour
+public class LaserProjectile : GenericProjectile
 {
-    public Vector3 target;
-
     [SerializeField]
     private LineRenderer lineRenderer;
 

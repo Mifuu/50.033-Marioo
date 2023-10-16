@@ -54,24 +54,20 @@ public class PlayerGun : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            // SetGun(GunType.None);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
             // SetGun(GunType.Shotgunchi);
             Player.instance.stateController.SetPowerup(PowerupType.Shotgunchi);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             // SetGun(GunType.Nijigun);
             Player.instance.stateController.SetPowerup(PowerupType.Nijigun);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+        if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             // SetGun(GunType.Kitagun);
             Player.instance.stateController.SetPowerup(PowerupType.Kitagun);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
+        if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             // SetGun(GunType.Ryogun);
             Player.instance.stateController.SetPowerup(PowerupType.Ryogun);

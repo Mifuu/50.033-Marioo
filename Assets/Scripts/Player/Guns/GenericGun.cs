@@ -2,19 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shotgun : MonoBehaviour
+public class GenericGun : MonoBehaviour
 {
     [Header("Settings")]
     public GameObject projectile;
-    public int ProjPerShot = 6;
     public float cooldown = 1.2f;
     private float cooldownTimer = 0.5f;
-    public float scatterDeg = 30;
+    public int projPerShot = 1;
+    public float timePerProjectile = 0.1f;
+    public float scatterDeg = 0;
     public LayerMask hitMask;
     public float recoilSpeed = 4;
     public float knockSpeed = 4;
+
+    [Header("Effects")]
     public GameObject gunShotParticle;
-    public GameObject gunHitParticle;
+    public string fireSFX;
+    public float screenShakeFac = 1;
 
     [Space]
     public Transform barrelEnd;
@@ -37,9 +41,9 @@ public class Shotgun : MonoBehaviour
 
         cooldownTimer -= Time.deltaTime;
 
-        if (Input.GetMouseButtonDown(0) && cooldownTimer < 0)
+        if (Input.GetMouseButton(0) && cooldownTimer < 0)
         {
-            Fire();
+            StartCoroutine(FireIE());
         }
 
         cursor = (Vector2)CursorPos.instance.worldPos;
@@ -49,17 +53,13 @@ public class Shotgun : MonoBehaviour
         FlipSprite(Mathf.Abs(angle) > 90);
     }
 
-    void Fire()
+    IEnumerator FireIE()
     {
-        CameraShake.instance.Shake();
+        CameraShake.instance.Shake(screenShakeFac);
 
-        playerMovement.Knock(-(cursor - (Vector2)transform.position) * recoilSpeed);
         cooldownTimer = cooldown;
-        Instantiate(gunShotParticle, barrelEnd.position, Quaternion.identity);
 
-        SFXManager.TryPlaySFX("proj_laser_2", Player.instance.gameObject);
-
-        for (int i = 0; i < ProjPerShot; i++)
+        for (int i = 0; i < projPerShot; i++)
         {
             // scatter target pos
             float _scatterDeg = Random.Range(-scatterDeg / 2, scatterDeg);
@@ -67,42 +67,23 @@ public class Shotgun : MonoBehaviour
             _angle *= Mathf.Deg2Rad;
             Vector2 target = new Vector2(Mathf.Cos(_angle), Mathf.Sin(_angle)).normalized;
 
-            RaycastHit2D hit = Physics2D.Raycast(barrelEnd.position, target, 50f, hitMask);
             GameObject instance = Instantiate(projectile, barrelEnd.position, Quaternion.identity);
-            LaserProjectile l = instance.GetComponent<LaserProjectile>();
+            GenericProjectile l = instance.GetComponent<GenericProjectile>();
             if (l == null)
             {
-                return;
+                yield break;
             }
 
-            if (!hit)
-            {
-                l.target = cursor.normalized * 50f;
-            }
-            else
-            {
-                l.target = hit.point;
+            l.target = cursor.normalized * 50f;
+            l.damage = damage;
 
-                var e = hit.transform.GetComponent<EnemyMovement>();
-                if (e != null)
-                {
-                    e.Knock((cursor - (Vector2)transform.position) * knockSpeed);
-                    // e.Dead();
-                    GameManager.instance.AddScore();
-                }
-                var u = hit.transform.GetComponent<UoombaScript>();
-                if (u != null)
-                {
-                    u.Knock((cursor - (Vector2)transform.position) * knockSpeed);
-                    // u.Dead();
-                    GameManager.instance.AddScore();
-                }
-                var d = hit.transform.GetComponent<Damageable>();
-                if (d != null)
-                {
-                    d.TakeDamage(damage, target);
-                }
-                Instantiate(gunHitParticle, hit.point, Quaternion.identity);
+            playerMovement.Knock(-(cursor - (Vector2)transform.position) * recoilSpeed);
+            Instantiate(gunShotParticle, barrelEnd.position, Quaternion.Euler(transform.rotation.z * Vector3.forward));
+            SFXManager.TryPlaySFX(fireSFX, Player.instance.gameObject);
+
+            if (timePerProjectile != 0)
+            {
+                yield return new WaitForSeconds(timePerProjectile);
             }
         }
     }

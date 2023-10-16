@@ -359,7 +359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65cd6620674e34476a0ab7908d4f9fc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 13
+  maxHP: 60
   hpSlider: {fileID: 3078801183023779820}
   hpCanvasGroup: {fileID: 8404575363429389825}
   fadeSprites:

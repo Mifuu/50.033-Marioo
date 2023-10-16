@@ -7,6 +7,8 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Collider2D))]
 public class Damageable : MonoBehaviour
 {
+    public static List<Damageable> instances = new List<Damageable>();
+
     [Header("Damageable: Health")]
     public int maxHP = 20;
     public Slider hpSlider;
@@ -65,6 +67,10 @@ public class Damageable : MonoBehaviour
         }
     }
 
+    protected virtual void OnEnable() => instances.Add(this);
+
+    protected virtual void OnDisable() => instances.Remove(this);
+
     protected virtual void Dead(Damage dmg, Vector2 dir)
     {
         onDeath.Invoke();
@@ -121,5 +127,10 @@ public class Damageable : MonoBehaviour
     {
         yield return new WaitForSeconds(destroyDelay);
         Destroy(gameObject);
+    }
+
+    public virtual bool IsDead()
+    {
+        return HP <= 0;
     }
 }

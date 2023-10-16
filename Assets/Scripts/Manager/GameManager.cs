@@ -42,7 +42,7 @@ public class GameManager : Singleton<GameManager>
         time = 0;
         UpdateEventSlider();
 
-        Application.targetFrameRate = 30;
+        Application.targetFrameRate = 60;
 
         //ResetGame();
     }
