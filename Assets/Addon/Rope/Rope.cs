@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using YUtil;
 
 // initial source: https://www.youtube.com/watch?v=FcnvwtyxLds
 public class Rope : MonoBehaviour
@@ -282,6 +283,12 @@ public class Rope : MonoBehaviour
             this.posNow = pos;
             this.posOld = pos;
         }
+
+        public RopeSegment(Vector2 posNow, Vector2 posOld)
+        {
+            this.posNow = posNow;
+            this.posOld = posOld;
+        }
     }
 
     void OnDrawGizmos()
@@ -402,3 +409,4 @@ public class Rope : MonoBehaviour
         }
     }
 }
+
