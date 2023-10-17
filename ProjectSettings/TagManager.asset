@@ -49,3 +49,9 @@ TagManager:
   - name: Character
     uniqueID: 4280730431
     locked: 0
+  - name: Projectile
+    uniqueID: 142959115
+    locked: 0
+  - name: World UI
+    uniqueID: 3862362177
+    locked: 0

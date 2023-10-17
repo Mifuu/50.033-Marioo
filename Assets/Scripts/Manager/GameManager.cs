@@ -7,7 +7,7 @@ public class GameManager : Singleton<GameManager>
 {
     public IntVariable gameScore;
     public IntVariable coin;
-    private float eventTime = 300;
+    private float eventTime = 90;
     private float time;
 
     [Header("UIs")]
@@ -29,6 +29,11 @@ public class GameManager : Singleton<GameManager>
     {
         time += Time.deltaTime;
         UpdateEventSlider();
+
+        if (time > eventTime)
+        {
+            // BossEvent.instance.TryStartBoss();
+        }
     }
 
     void Start()
@@ -45,6 +50,11 @@ public class GameManager : Singleton<GameManager>
         Application.targetFrameRate = 60;
 
         //ResetGame();
+    }
+
+    public float GetEventProgress()
+    {
+        return Mathf.Clamp01(time / eventTime);
     }
 
     public void AddScore(int add = 1)

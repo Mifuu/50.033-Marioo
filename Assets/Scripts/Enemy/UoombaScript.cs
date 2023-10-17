@@ -92,10 +92,10 @@ public class UoombaScript : Damageable
 
         if (dmg.isHeavy)
         {
-            DetachLegs(dmg.knockFac * dir);
+            DetachLegs(dmg.knockFac * dir.normalized);
         }
 
-        Knock(dmg.knockFac * dir);
+        Knock(dmg.knockFac * dir.normalized);
         rb.freezeRotation = false;
         rb.angularVelocity = Random.Range(-180, 180);
 
@@ -105,7 +105,7 @@ public class UoombaScript : Damageable
     public void Knock(Vector2 velo)
     {
         // Vector2 velocity = rb.velocity;
-        rb.velocity = velo;
+        rb.velocity += velo;
         // rb.velocity = velocity;
     }
 

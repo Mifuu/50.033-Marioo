@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class SpawnerScript : MonoBehaviour
 {
+    public static List<SpawnerScript> spawnerScripts = new List<SpawnerScript>();
+
     public Vector2 size;
     public GameObject spawn;
     public Vector2 periodRange;
     public Vector2Int numRange;
     public bool spawnOnStart = true;
     public Vector2 timeRange = new Vector2(0, 280);
+
+    void OnEnable() => spawnerScripts.Add(this);
+    void OnDisable() => spawnerScripts.Remove(this);
 
     void Start()
     {

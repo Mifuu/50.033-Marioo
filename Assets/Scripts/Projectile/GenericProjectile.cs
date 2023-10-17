@@ -10,7 +10,7 @@ public class GenericProjectile : MonoBehaviour
     public float speed = 5;
     public Damage damage;
     public float lifeTime = 10;
-    private float time = 0;
+    protected float time = 0;
 
     [Header("Target")]
     public LayerMask hitMask;
@@ -37,7 +37,7 @@ public class GenericProjectile : MonoBehaviour
     new public Collider2D collider;
     public SpriteRenderer spriteRenderer;
 
-    void Start()
+    protected virtual void Start()
     {
         velocity = ((Vector2)target - (Vector2)transform.position).normalized * speed;
     }
@@ -113,7 +113,7 @@ public class GenericProjectile : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D collider)
+    protected virtual void OnTriggerEnter2D(Collider2D collider)
     {
         if (IsMaskMatched(collider.gameObject))
         {

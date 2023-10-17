@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using YUtil;
 
 public class GenericGun : MonoBehaviour
 {
@@ -30,8 +31,6 @@ public class GenericGun : MonoBehaviour
     private float angle;
     private Vector2 cursor;
 
-
-
     [Header("Requirements")]
     public PlayerMovement playerMovement;
 
@@ -46,8 +45,9 @@ public class GenericGun : MonoBehaviour
             StartCoroutine(FireIE());
         }
 
-        cursor = (Vector2)CursorPos.instance.worldPos;
+        cursor = (Vector2)CursorPos.instance.transform.position;
         angle = Vector2.SignedAngle(Vector2.right, cursor - (Vector2)transform.position);
+        // angle = YUtil.AngPosUtil.GetAngle(cursor, transform.position);
 
         gunRotate.rotation = Quaternion.Euler(Vector3.forward * angle);
         FlipSprite(Mathf.Abs(angle) > 90);
@@ -74,7 +74,7 @@ public class GenericGun : MonoBehaviour
                 yield break;
             }
 
-            l.target = cursor.normalized * 50f;
+            l.target = YUtil.AngPosUtil.GetAngularPos(angle, 50) * 50f;
             l.damage = damage;
 
             playerMovement.Knock(-(cursor - (Vector2)transform.position) * recoilSpeed);

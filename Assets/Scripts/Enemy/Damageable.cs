@@ -29,7 +29,7 @@ public class Damageable : MonoBehaviour
     [Header("Damageable: Event")]
     public UnityEvent onDeath;
 
-    private int hp;
+    protected int hp;
     public int HP
     {
         get
@@ -42,17 +42,25 @@ public class Damageable : MonoBehaviour
             if (hp <= 0) hp = 0;
             if (hp == 0)
             {   // don't show slider when hp is full
-                hpSlider.gameObject.SetActive(false);
+                if (hpSlider != null)
+                {
+                    hpSlider.gameObject.SetActive(false);
+                }
             }
             else if (hp == maxHP)
             {
-                hpCanvasGroup.alpha = 0.5f;
+                if (hpCanvasGroup != null)
+                    hpCanvasGroup.alpha = 0.5f;
             }
             else
             {
-                hpCanvasGroup.alpha = 1;
-                hpSlider.gameObject.SetActive(true);
-                hpSlider.value = hp / (float)maxHP;
+                if (hpCanvasGroup != null)
+                    hpCanvasGroup.alpha = 1;
+                if (hpSlider != null)
+                {
+                    hpSlider.gameObject.SetActive(true);
+                    hpSlider.value = hp / (float)maxHP;
+                }
             }
         }
     }
@@ -98,6 +106,7 @@ public class Damageable : MonoBehaviour
 
     private void DropItem()
     {
+        if (dropPool == null) return;
         DropPoolItem d = dropPool.GetDropPoolItem();
 
         if (d.drop != null)

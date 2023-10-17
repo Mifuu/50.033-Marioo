@@ -335,7 +335,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: -432605119
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &2593884272680996330
@@ -644,7 +644,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65cd6620674e34476a0ab7908d4f9fc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 25
+  maxHP: 15
   hpSlider: {fileID: 123117091582624926}
   hpCanvasGroup: {fileID: 8101668472407873624}
   fadeSprites:

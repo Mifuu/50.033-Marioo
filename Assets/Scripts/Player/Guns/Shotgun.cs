@@ -91,12 +91,6 @@ public class Shotgun : MonoBehaviour
                     GameManager.instance.AddScore();
                 }
                 var u = hit.transform.GetComponent<UoombaScript>();
-                if (u != null)
-                {
-                    u.Knock((cursor - (Vector2)transform.position) * knockSpeed);
-                    // u.Dead();
-                    GameManager.instance.AddScore();
-                }
                 var d = hit.transform.GetComponent<Damageable>();
                 if (d != null)
                 {
