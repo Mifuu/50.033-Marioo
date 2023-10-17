@@ -1,12 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BossEvent : Singleton<BossEvent>
 {
     public Boss boss;
 
     private GameManager gameManager;
+
+    public Material iconLightMat;
+    public Image icon25;
+    public Image icon50;
+    public Image icon75;
+    public Image icon100;
 
     void Start()
     {
@@ -20,11 +27,25 @@ public class BossEvent : Singleton<BossEvent>
             BossNextPhase();
 
         if (gameManager.GetEventProgress() > 0.25f && boss.phase == Boss.Phase.Invisible)
+        {
             BossNextPhase();
+            icon25.material = iconLightMat;
+        }
         else if (gameManager.GetEventProgress() > 0.5f && boss.phase == Boss.Phase.Silent)
+        {
             BossNextPhase();
+            icon50.material = iconLightMat;
+        }
         else if (gameManager.GetEventProgress() > 0.75f && boss.phase == Boss.Phase.Defence)
+        {
             BossNextPhase();
+            icon75.material = iconLightMat;
+        }
+        else if (gameManager.GetEventProgress() > 0.99f)
+        {
+            BossNextPhase();
+            icon100.material = iconLightMat;
+        }
     }
 
     public void TryStartBoss()
@@ -35,6 +56,8 @@ public class BossEvent : Singleton<BossEvent>
 
     public void BossNextPhase()
     {
+        SFXManager.TryPlaySFX("event_notice", Player.instance.gameObject);
+
         switch (boss.phase)
         {
             case Boss.Phase.None:

@@ -58,6 +58,7 @@ public class BossStrikeProjectile : GenericProjectile
             {
                 p.TakeDamage();
             }
+            if (collider.enabled) SFXManager.TryPlaySFX("strike_hit", gameObject);
             this.collider.enabled = false;
             this.lineRenderer.enabled = false;
             DestroyProjectile();

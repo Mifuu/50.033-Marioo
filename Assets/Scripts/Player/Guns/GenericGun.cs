@@ -62,10 +62,10 @@ public class GenericGun : MonoBehaviour
         for (int i = 0; i < projPerShot; i++)
         {
             // scatter target pos
-            float _scatterDeg = Random.Range(-scatterDeg / 2, scatterDeg);
-            float _angle = angle + _scatterDeg;
-            _angle *= Mathf.Deg2Rad;
-            Vector2 target = new Vector2(Mathf.Cos(_angle), Mathf.Sin(_angle)).normalized;
+            // float _scatterDeg = Random.Range(-scatterDeg / 2, scatterDeg);
+            // float _angle = angle + _scatterDeg;
+            // _angle *= Mathf.Deg2Rad;
+            // Vector2 target = new Vector2(Mathf.Cos(_angle), Mathf.Sin(_angle)).normalized;
 
             GameObject instance = Instantiate(projectile, barrelEnd.position, Quaternion.identity);
             GenericProjectile l = instance.GetComponent<GenericProjectile>();
@@ -74,7 +74,7 @@ public class GenericGun : MonoBehaviour
                 yield break;
             }
 
-            l.target = YUtil.AngPosUtil.GetAngularPos(angle, 50) * 50f;
+            l.target = YUtil.AngPosUtil.GetAngularPos(angle, 50, scatterDeg) * 50f;
             l.damage = damage;
 
             playerMovement.Knock(-(cursor - (Vector2)transform.position) * recoilSpeed);

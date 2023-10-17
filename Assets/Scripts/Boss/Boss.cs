@@ -26,6 +26,7 @@ public class Boss : Damageable
     new public Collider2D collider;
 
     [Header("Attacks")]
+    public GameObject strikeSpawnParticle;
     public GameObject strike1Obj;
     public Transform[] strike1Poses;
     public Transform[] strike2Poses;
@@ -87,6 +88,8 @@ public class Boss : Damageable
     // offence phase
     public void StartPhase4()
     {
+        SFXManager.TryPlaySFX("boss_growl", gameObject);
+
         collider.enabled = true;
         phase = Phase.Offence;
 
@@ -131,6 +134,7 @@ public class Boss : Damageable
         foreach (var t in strike1Poses)
         {
             Instantiate(strike1Obj, t.position, Quaternion.identity);
+            SFXManager.TryPlaySFX("strike_spawn", gameObject);
             yield return new WaitForSeconds(1f);
         }
 
@@ -181,6 +185,7 @@ public class Boss : Damageable
         foreach (var t in strike2Poses)
         {
             Instantiate(strike1Obj, t.position, Quaternion.identity);
+            SFXManager.TryPlaySFX("strike_spawn", gameObject);
             yield return new WaitForSeconds(0.6f);
         }
 
@@ -202,6 +207,8 @@ public class Boss : Damageable
     public override void TakeDamage(Damage dmg, Vector2 dir)
     {
         StartCoroutine(TakeDamageMatIE());
+
+        SFXManager.TryPlaySFX("boss_damage", gameObject);
 
         base.TakeDamage(dmg, dir);
     }
