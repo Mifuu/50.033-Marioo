@@ -12,6 +12,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Coin Copper Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 5847759023032269924, guid: b5a51d09ac3194724a1559f3edbc4f1e, type: 3}
+      propertyPath: coin
+      value: 
+      objectReference: {fileID: 11400000, guid: 744d9016c8f864f6fbda9c30baa1c64c, type: 2}
+    - target: {fileID: 5847759023032269924, guid: b5a51d09ac3194724a1559f3edbc4f1e, type: 3}
+      propertyPath: score
+      value: 
+      objectReference: {fileID: 11400000, guid: c8f6f72d9005c4308bce975a69437944, type: 2}
     - target: {fileID: 6038310534028698981, guid: b5a51d09ac3194724a1559f3edbc4f1e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.009433

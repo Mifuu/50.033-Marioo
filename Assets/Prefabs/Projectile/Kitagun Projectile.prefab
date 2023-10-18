@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {x: 0, y: 0, z: 0}
   speed: 15
-  damage: {fileID: 0}
+  damage: {fileID: 11400000, guid: 763ee1db046114848ac2aadacca976e3, type: 2}
   lifeTime: 10
   hitMask:
     serializedVersion: 2
@@ -60,6 +60,7 @@ MonoBehaviour:
   angularSpeed: 0
   hitParticle: {fileID: 5579728649327028375, guid: 2d92809d2cefd46e6854c68b67fbf630, type: 3}
   hitSFX: gun_land
+  score: {fileID: 11400000, guid: c8f6f72d9005c4308bce975a69437944, type: 2}
   homingEnable: 1
   homingMode: 0
   homingRadius: 14
@@ -173,7 +174,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1287625429
-  m_SortingLayer: 2
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 1, g: 0.942345, b: 0.1462264, a: 1}
@@ -258,7 +259,7 @@ TrailRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1287625429
-  m_SortingLayer: 2
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Time: 0.3
   m_PreviewTimeScale: 1

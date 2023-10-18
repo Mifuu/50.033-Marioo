@@ -134,6 +134,7 @@ public class Boss : Damageable
         foreach (var t in strike1Poses)
         {
             Instantiate(strike1Obj, t.position, Quaternion.identity);
+            Instantiate(strikeSpawnParticle, t.position, Quaternion.identity);
             SFXManager.TryPlaySFX("strike_spawn", gameObject);
             yield return new WaitForSeconds(1f);
         }
@@ -185,6 +186,7 @@ public class Boss : Damageable
         foreach (var t in strike2Poses)
         {
             Instantiate(strike1Obj, t.position, Quaternion.identity);
+            Instantiate(strikeSpawnParticle, t.position, Quaternion.identity);
             SFXManager.TryPlaySFX("strike_spawn", gameObject);
             yield return new WaitForSeconds(0.6f);
         }

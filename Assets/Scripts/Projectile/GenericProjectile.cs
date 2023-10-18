@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using YUtil;
 
 public class GenericProjectile : MonoBehaviour
@@ -24,6 +25,7 @@ public class GenericProjectile : MonoBehaviour
     [Header("Hit Effects")]
     public GameObject hitParticle;
     public string hitSFX;
+    public IntVariable score;
 
     [Header("Homing")]
     public bool homingEnable;
@@ -121,6 +123,7 @@ public class GenericProjectile : MonoBehaviour
             if (d)
             {
                 d.TakeDamage(damage, target);
+                score.ApplyChange(1);
             }
             DestroyProjectile();
         }

@@ -56,7 +56,7 @@ public class BossEvent : Singleton<BossEvent>
 
     public void BossNextPhase()
     {
-        SFXManager.TryPlaySFX("event_notice", Player.instance.gameObject);
+        if (boss.phase != Boss.Phase.Offence) SFXManager.TryPlaySFX("event_notice", Player.instance.gameObject);
 
         switch (boss.phase)
         {

@@ -17,6 +17,9 @@ public class CoinPickup : MonoBehaviour
 
     public string sfxName;
 
+    public IntVariable coin;
+    public IntVariable score;
+
     void Awake()
     {
         collider = GetComponent<BoxCollider2D>();
@@ -28,7 +31,8 @@ public class CoinPickup : MonoBehaviour
         Player player = collider.gameObject.GetComponent<Player>();
         if (player == null) return;
 
-        GameManager.instance.AddCoin(value);
+        coin.ApplyChange(value);
+        score.ApplyChange(value);
 
         Instantiate(particle, transform.position, Quaternion.identity);
         SFXManager.TryPlaySFX(sfxName, player.gameObject);

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Shotgun : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class Shotgun : MonoBehaviour
 
     private float angle;
     private Vector2 cursor;
-
+    public IntVariable score;
 
 
     [Header("Requirements")]
@@ -95,6 +96,7 @@ public class Shotgun : MonoBehaviour
                 if (d != null)
                 {
                     d.TakeDamage(damage, target);
+                    score.ApplyChange(1);
                 }
                 Instantiate(gunHitParticle, hit.point, Quaternion.identity);
             }

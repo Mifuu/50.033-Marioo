@@ -247,7 +247,7 @@ Transform:
   m_GameObject: {fileID: 8083511678086663578}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.5, y: 3.9, z: 0.023332138}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -281,6 +281,7 @@ MonoBehaviour:
   angularSpeed: 0
   hitParticle: {fileID: 5579728649327028375, guid: 1a0ba7f1b417b40a8af95f0812d0fe27, type: 3}
   hitSFX: 
+  score: {fileID: 0}
   homingEnable: 0
   homingMode: 0
   homingRadius: 0

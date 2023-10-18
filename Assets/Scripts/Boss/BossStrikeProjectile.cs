@@ -24,14 +24,12 @@ public class BossStrikeProjectile : GenericProjectile
     {
         while (time < aimTime)
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, player.transform.position - transform.position, 50f, aimMask);
-
-            target = (player.transform.position - transform.position).normalized * 50;
-
-            lineRenderer.SetPositions(new Vector3[] { transform.position, target });
-
+            // RaycastHit2D hit = Physics2D.Raycast(transform.position, player.transform.position - transform.position, 50f, aimMask);
             float angle = YUtil.AngPosUtil.GetAngle(player.transform.position, transform.position);
             transform.rotation = Quaternion.Euler(0, 0, angle);
+
+            target = YUtil.AngPosUtil.GetAngularPos(angle, -50) + (Vector2)transform.position;
+            lineRenderer.SetPositions(new Vector3[] { transform.position, target });
 
             yield return null;
         }
