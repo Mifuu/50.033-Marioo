@@ -58,7 +58,7 @@ Material:
     - _CamoNoiseJitterMagnitude: 0.05
     - _CamoNoiseMagnitude: 0.05
     - _CamoNoiseScale: 53.1
-    - _GlowFac: 0.19999999
+    - _GlowFac: 0.2008955
     - _QueueControl: 0
     - _QueueOffset: 0
     - _glowFac: -1.09
