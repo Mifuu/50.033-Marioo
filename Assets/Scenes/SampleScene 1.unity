@@ -4637,7 +4637,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: {x: 9.04, y: 9.56}
   spawn: {fileID: 8291503003042748419, guid: b97ca049c66a44f8583c51afec7dadfc, type: 3}
-  periodRange: {x: 14, y: 24}
+  periodRange: {x: 20.2, y: 25.9}
   numRange: {x: 1, y: 2}
   spawnOnStart: 1
   timeRange: {x: 35, y: 75}
@@ -23487,7 +23487,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: {x: 9.04, y: 9.56}
   spawn: {fileID: 8291503003042748419, guid: b97ca049c66a44f8583c51afec7dadfc, type: 3}
-  periodRange: {x: 14, y: 24}
+  periodRange: {x: 20.2, y: 25.9}
   numRange: {x: 1, y: 2}
   spawnOnStart: 0
   timeRange: {x: 35, y: 75}

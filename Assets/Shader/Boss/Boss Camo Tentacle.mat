@@ -49,8 +49,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 1
-    - _AppearFac: 0.75
+    - _Alpha: 0
+    - _AppearFac: 0
     - _CamoAppearNoiseScale: 2.83
     - _CamoFac: 0
     - _CamoNoiseJitterFac: 1
@@ -58,7 +58,7 @@ Material:
     - _CamoNoiseJitterMagnitude: 0.05
     - _CamoNoiseMagnitude: 0.05
     - _CamoNoiseScale: 53.1
-    - _GlowFac: 0.2008955
+    - _GlowFac: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _glowFac: -1.09
